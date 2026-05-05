@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guest Registration - Tabor Ashram</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Flatpickr (Custom Calendar Tool) CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap');
+        
+        .font-serif { font-family: 'Merriweather', serif; }
+        .font-sans { font-family: 'Open Sans', sans-serif; }
+
+        input[type="text"].flatpickr-input {
+            cursor: pointer;
+            background-color: #f9fafb; 
+        }
+    </style>
+</head>
+<body class="bg-[#F0F4F8] font-sans text-gray-900 p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto mt-2 mb-12">
+        
+        <!-- Header Section -->
+        <div class="flex flex-col md:flex-row items-center md:items-start justify-center md:justify-start gap-6 mb-8 px-2">
+            <!-- The Logo: Now floats to the left on larger screens -->
+            <img src="logo.jpg" alt="Tabor Ashram Logo" class="w-28 h-28 md:w-36 md:h-36 object-contain rounded-full drop-shadow-md">
+            
+            <!-- The Text: Aligned to the left next to the logo -->
+            <div class="text-center md:text-left flex-1">
+                <h2 class="text-base md:text-lg font-bold text-blue-600 uppercase tracking-wider mb-1">Tabor Divine Retreat Ashram Kalyan</h2>
+                <h1 class="font-serif text-3xl md:text-5xl font-black text-blue-900 mb-3 leading-tight">Guest Registration Form</h1>
+                
+                <div class="inline-flex flex-col sm:flex-row sm:gap-4 items-center bg-white border-2 border-blue-100 rounded-lg px-4 py-2 shadow-sm">
+                    <p class="text-lg font-bold text-blue-800">May 10 - May 15, 2026</p>
+                    <div class="hidden sm:block w-px h-5 bg-blue-200"></div>
+                    <p class="text-sm md:text-md font-semibold text-gray-700">Tabor Bhavan, Kalyan (West)</p>
+                </div>
+            </div>
+        </div>
+
+        <form id="accessibleForm" class="bg-white rounded-2xl shadow-xl border-t-8 border-blue-700 p-6 md:p-10">
+            
+            <!-- The Grid that splits the form into Left and Right columns on large screens -->
+            <div class="grid grid-cols-1 xl:grid-cols-12 gap-10">
+
+                <!-- LEFT COLUMN: Personal Details -->
+                <div class="xl:col-span-7">
+                    <h3 class="font-serif text-2xl font-bold text-blue-900 border-b-2 border-blue-100 pb-3 mb-6">Personal Details</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name" class="block font-bold text-lg mb-2 text-gray-800">Full Name *</label>
+                            <input type="text" id="name" placeholder="Enter full name"
+                                class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-gray-50 focus:bg-white focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition">
+                        </div>
+                        <div>
+                            <label for="familyGroup" class="block font-bold text-lg mb-2 text-gray-800">Family / Group Name</label>
+                            <input type="text" id="familyGroup" placeholder="Optional"
+                                class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-gray-50 focus:bg-white focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition">
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="relative">
+                                <label class="block font-bold text-lg mb-2 text-gray-800">Sex *</label>
+                                <button type="button" onclick="toggleDropdown(event, 'sexList')" class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-gray-50 focus:bg-white focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition flex justify-between items-center text-gray-500">
+                                    <span id="sexSelected">Select</span>
+                                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div id="sexList" class="dropdown-menu hidden absolute z-20 w-full mt-2 bg-white border-2 border-blue-200 rounded-lg shadow-xl overflow-hidden text-lg">
+                                    <div onclick="selectOption('sex', 'Male')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 border-b border-gray-100 transition">Male</div>
+                                    <div onclick="selectOption('sex', 'Female')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 border-b border-gray-100 transition">Female</div>
+                                    <div onclick="selectOption('sex', 'Other')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 transition">Other</div>
+                                </div>
+                                <input type="hidden" id="sex">
+                            </div>
+
+                            <div>
+    <label for="age" class="block font-bold text-lg mb-2 text-gray-800">Age (Auto)</label>
+    <input type="text" id="age" placeholder="--" readonly
+        class="w-full border-2 border-gray-200 rounded-lg p-4 text-lg bg-gray-100 text-gray-500 cursor-not-allowed outline-none transition">
+</div>
+                        </div>
+
+                        <div>
+    <label for="dob" class="block font-bold text-lg mb-2 text-gray-800">Date of Birth *</label>
+    <input type="date" id="dob" max="2026-05-06"
+        class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-gray-50 focus:bg-white focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition text-gray-800">
+</div>  
+                        
+                        <div class="relative md:col-span-2">
+                            <label class="block font-bold text-lg mb-2 text-gray-800">Select ID Proof Type *</label>
+                            <button type="button" onclick="toggleDropdown(event, 'idTypeList')" class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-gray-50 focus:bg-white focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition flex justify-between items-center text-gray-500">
+                                <span id="idTypeSelected">Choose ID Type (Aadhar, PAN, etc.)</span>
+                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div id="idTypeList" class="dropdown-menu hidden absolute z-20 w-full mt-2 bg-white border-2 border-blue-200 rounded-lg shadow-xl overflow-hidden text-lg">
+                                <div onclick="selectOption('idType', 'Aadhar Card')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 border-b border-gray-100 transition">Aadhar Card</div>
+                                <div onclick="selectOption('idType', 'PAN Card')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 border-b border-gray-100 transition">PAN Card</div>
+                                <div onclick="selectOption('idType', 'Driving License')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 transition">Driving License</div>
+                            </div>
+                            <input type="hidden" id="idType">
+                        </div>
+
+                        <div id="uploadContainer" class="hidden md:col-span-2">
+                            <label id="uploadLabel" class="block font-bold text-lg mb-2 text-gray-800">Upload ID Document *</label>
+                            <div class="flex items-center justify-center w-full">
+                                <label for="idMedia" class="flex flex-col items-center justify-center w-full h-40 border-4 border-blue-200 border-dashed rounded-xl cursor-pointer bg-blue-50 hover:bg-blue-100 hover:border-blue-400 transition-all">
+                                    <div class="flex flex-col items-center justify-center pt-5 pb-6 text-center px-4">
+                                        <svg class="w-10 h-10 mb-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                                        <p class="mb-2 text-lg text-gray-700"><span class="font-bold text-blue-700">Click to upload</span> document</p>
+                                        <p id="fileNameDisplay" class="text-md font-bold text-green-700 mt-1 hidden bg-green-100 px-3 py-1 rounded-full"></p>
+                                    </div>
+                                    <input id="idMedia" type="file" class="hidden" accept="image/png, image/jpeg, image/jpg" onchange="displayFileName(this)" />
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN: Contact & Accommodation -->
+                <div class="xl:col-span-5 flex flex-col gap-10">
+                    
+                    <!-- Contact Information -->
+                    <div>
+                        <h3 class="font-serif text-2xl font-bold text-blue-900 border-b-2 border-blue-100 pb-3 mb-6">Contact Information</h3>
+                        
+                        <div class="grid grid-cols-1 gap-6">
+                            <div>
+                                <label for="contact" class="block font-bold text-lg mb-2 text-gray-800">Contact Number *</label>
+                                <div class="flex items-stretch border-2 border-gray-300 rounded-lg bg-gray-50 focus-within:border-blue-600 focus-within:ring-2 focus-within:ring-blue-100 transition overflow-hidden">
+                                    <span class="flex items-center justify-center px-4 text-lg font-bold text-gray-600 bg-gray-200 border-r border-gray-300">+91</span>
+                                    <input type="tel" id="contact" placeholder="10-digit number" pattern="[0-9]{10}" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" class="w-full p-4 text-lg bg-transparent focus:outline-none">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-6">
+                                <div>
+                                    <label for="emergencyContact" class="block font-bold text-lg mb-2 text-gray-800">Emergency Contact *</label>
+                                    <div class="flex items-stretch border-2 border-gray-300 rounded-lg bg-gray-50 focus-within:border-blue-600 focus-within:ring-2 focus-within:ring-blue-100 transition overflow-hidden">
+                                        <span class="flex items-center justify-center px-4 text-lg font-bold text-gray-600 bg-gray-200 border-r border-gray-300">+91</span>
+                                        <input type="tel" id="emergencyContact" placeholder="10-digit number" pattern="[0-9]{10}" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" class="w-full p-4 text-lg bg-transparent focus:outline-none">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="relation" class="block font-bold text-lg mb-2 text-gray-800">Relation to Emergency *</label>
+                                    <input type="text" id="relation" placeholder="e.g., Brother, Friend" class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-gray-50 focus:bg-white focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Accommodation Details -->
+                    <div>
+                        <h3 class="font-serif text-2xl font-bold text-blue-900 border-b-2 border-blue-100 pb-3 mb-6">Accommodation</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="relative">
+                                <label class="block font-bold text-lg mb-2 text-gray-800">Type of Room *</label>
+                                <button type="button" onclick="toggleDropdown(event, 'roomList')" class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-gray-50 focus:bg-white focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition flex justify-between items-center text-gray-500">
+                                    <span id="roomTypeSelected">Select</span>
+                                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div id="roomList" class="dropdown-menu hidden absolute z-20 w-full mt-2 bg-white border-2 border-blue-200 rounded-lg shadow-xl overflow-hidden text-lg">
+                                    <div onclick="selectOption('roomType', 'Single')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 border-b border-gray-100 transition">Single</div>
+                                    <div onclick="selectOption('roomType', 'Double / Shared')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 border-b border-gray-100 transition">Double / Shared</div>
+                                    <div onclick="selectOption('roomType', 'Dormitory')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 transition">Dormitory</div>
+                                </div>
+                                <input type="hidden" id="roomType">
+                            </div>
+
+                            <div class="relative">
+                                <label class="block font-bold text-lg mb-2 text-gray-800">AC / Non-AC *</label>
+                                <button type="button" onclick="toggleDropdown(event, 'acList')" class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-gray-50 focus:bg-white focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition flex justify-between items-center text-gray-500">
+                                    <span id="acPreferenceSelected">Select</span>
+                                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div id="acList" class="dropdown-menu hidden absolute z-20 w-full mt-2 bg-white border-2 border-blue-200 rounded-lg shadow-xl overflow-hidden text-lg">
+                                    <div onclick="selectOption('acPreference', 'AC')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 border-b border-gray-100 transition">AC</div>
+                                    <div onclick="selectOption('acPreference', 'Non-AC')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 transition">Non-AC</div>
+                                </div>
+                                <input type="hidden" id="acPreference">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <div class="mt-10 border-t-2 border-gray-100 pt-8 text-center">
+                <button type="submit" 
+                    class="bg-blue-700 hover:bg-blue-800 text-white text-xl font-bold py-5 px-16 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 w-full md:w-auto">
+                    Submit Registration Form
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    // --- UPDATED CALENDAR LOGIC START ---
+   // Native Calendar Logic with Auto-Age Calculation
+const dobInput = document.getElementById('dob');
+const ageField = document.getElementById('age');
+
+dobInput.addEventListener('input', function() {
+    if (this.value) {
+        const birthDate = new Date(this.value);
+        const today = new Date();
+        
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        
+        // Adjust age if birthday hasn't happened yet this year
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        
+        if (age >= 0) {
+            ageField.value = age;
+            ageField.classList.remove('text-gray-500');
+            ageField.classList.add('text-blue-900', 'font-bold');
+        } else {
+            ageField.value = "";
+        }
+    }
+});
+    // --- UPDATED CALENDAR LOGIC END ---
+
+    function toggleDropdown(event, listId) {
+        event.stopPropagation(); 
+        document.querySelectorAll('.dropdown-menu').forEach(menu => {
+            if(menu.id !== listId) menu.classList.add('hidden');
+        });
+        document.getElementById(listId).classList.toggle('hidden');
+    }
+
+    function selectOption(fieldId, value) {
+        let selectedSpan = document.getElementById(fieldId + 'Selected');
+        selectedSpan.innerText = value;
+        selectedSpan.classList.remove('text-gray-500'); 
+        selectedSpan.classList.add('text-gray-900');    
+        document.getElementById(fieldId).value = value;
+        if(fieldId === 'idType') {
+            document.getElementById('uploadContainer').classList.remove('hidden');
+            document.getElementById('uploadLabel').innerText = "Upload an image of your " + value + " *";
+        }
+    }
+
+    function displayFileName(input) {
+        const display = document.getElementById('fileNameDisplay');
+        if(input.files && input.files.length > 0) {
+            display.innerText = "Selected: " + input.files[0].name;
+            display.classList.remove('hidden'); 
+        }
+    }
+
+    window.onclick = function() {
+        document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.add('hidden'));
+    }
+
+    document.getElementById('accessibleForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const submitBtn = event.target.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerText;
+        
+        const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/ddqmjlznq/image/upload";
+        const UPLOAD_PRESET = "retreat_uploads";
+        const WEB3FORMS_KEY = "b9ca0fc7-fd99-417d-9467-6ba261b27802";
+
+        const name = document.getElementById('name').value.trim();
+        const idType = document.getElementById('idType').value;
+        const idMedia = document.getElementById('idMedia').files[0];
+
+        if (!name || !idType || !idMedia) return alert("Please fill all required fields and upload your ID.");
+
+        submitBtn.innerText = "Uploading Image...";
+        submitBtn.disabled = true;
+
+        try {
+            const cloudData = new FormData();
+            cloudData.append("file", idMedia);
+            cloudData.append("upload_preset", UPLOAD_PRESET);
+
+            const cloudRes = await fetch(CLOUDINARY_URL, { method: "POST", body: cloudData });
+            const cloudJson = await cloudRes.json();
+
+            if (!cloudJson.secure_url) throw new Error("Image upload failed");
+
+            submitBtn.innerText = "Sending Registration...";
+            const finalData = new FormData();
+            finalData.append("access_key", WEB3FORMS_KEY);
+            finalData.append("subject", "New Registration: " + name);
+            finalData.append("Full Name", name);
+            finalData.append("ID Type", idType);
+            finalData.append("ID Image Link", cloudJson.secure_url);
+            finalData.append("Age", document.getElementById('age').value);
+            finalData.append("Date of Birth", document.getElementById('dob').value); // Added DOB to final data
+            finalData.append("Contact", document.getElementById('contact').value);
+
+            const web3Res = await fetch("https://api.web3forms.com/submit", { method: "POST", body: finalData });
+            
+            if (web3Res.status === 200) {
+                alert("Success! Your registration has been submitted.");
+                window.location.reload();
+            } else {
+                alert("Submission failed. Please try again.");
+            }
+
+        } catch (err) {
+            console.error(err);
+            alert("An error occurred. Check the console for details.");
+        } finally {
+            submitBtn.innerText = originalBtnText;
+            submitBtn.disabled = false;
+        }
+    });
+</script>
+</body>
+</html>
