@@ -195,6 +195,31 @@
                 </div>
             </div>
 
+            <!-- PAYMENT SECTION (NEW) -->
+                <div class="mt-8 border-t-2 border-blue-100 pt-6">
+                    <h3 class="font-serif text-2xl font-bold text-blue-900 mb-4">Registration Payment</h3>
+                    <div class="bg-indigo-50 rounded-xl p-6 border-2 border-indigo-200 flex flex-col md:flex-row items-center gap-8">
+                        
+                        <!-- QR Code Image -->
+                        <div class="w-48 h-48 bg-white border-2 border-indigo-300 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden shadow-sm">
+                            <!-- NOTE: Save the Ashram's QR code image as "qr.jpg" in your folder -->
+                            <img src="qr.jpg" alt="UPI QR Code" class="w-full h-full object-cover" 
+                                onerror="this.outerHTML='<div class=\'text-center p-4 text-sm text-gray-500\'>Please add qr.jpg to your project folder</div>'">
+                        </div>
+                        
+                        <div class="flex-grow w-full">
+                            <p class="text-gray-800 text-lg mb-2">Please scan the QR code to pay the mandatory registration fee.</p>
+                            <!-- Update the UPI ID and Amount Below -->
+                            <p class="text-gray-600 mb-4">UPI ID: <span class="font-bold text-indigo-800">taborashram@upi</span></p>
+                            
+                            <label for="transactionId" class="block font-bold text-lg mb-2 text-gray-800">UPI Transaction ID (UTR) *</label>
+                            <input type="text" id="transactionId" placeholder="Enter 12-digit UTR number" maxlength="12"
+                                class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-white focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 transition">
+                            <p class="text-sm text-gray-500 mt-2">Found in your GPay/PhonePe history after payment.</p>
+                        </div>
+                    </div>
+                </div> 
+
             <!-- Action Button -->
             <div class="mt-10 border-t-2 border-gray-100 pt-8 text-center">
                 <button type="submit" 
@@ -263,6 +288,7 @@
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwxdJQUxZTrN76MED7Zldyoqk2CfaED9LfWfQpE21jLLdXNc3xQKj8MZebNxcQ9MbhG/exec"; 
 
         // Gather Values
+       // Gather Values (Add Transaction ID)
         const name = document.getElementById('name').value.trim();
         const familyGroup = document.getElementById('familyGroup').value.trim() || "None";
         const sex = document.getElementById('sex').value;
@@ -270,27 +296,20 @@
         const idType = document.getElementById('idType').value;
         const contact = document.getElementById('contact').value;
         const idMedia = document.getElementById('idMedia').files[0];
+        // NEW: Get the Transaction ID
+        const transactionId = document.getElementById('transactionId').value.trim();
 
+        // Validation (Require transaction ID)
         if (!name || !sex || !age || !idType || !idMedia || contact.length !== 10) {
             return alert("Please fill all required fields correctly.");
         }
+        if (transactionId.length < 8) {
+            return alert("Please complete the payment and enter a valid UPI Transaction ID.");
+        }
 
-        submitBtn.innerText = "Processing Registration...";
-        submitBtn.disabled = true;
+        // ... (Keep the Cloudinary upload code the same) ...
 
-        try {
-            // 1. Upload ID to Cloudinary
-            const cloudData = new FormData();
-            cloudData.append("file", idMedia);
-            cloudData.append("upload_preset", UPLOAD_PRESET);
-
-            const cloudRes = await fetch(CLOUDINARY_URL, { method: "POST", body: cloudData });
-            const cloudJson = await cloudRes.json();
-
-            if (!cloudJson.secure_url) throw new Error("Image upload failed");
-
-            // 2. Prepare Data for Google Sheets
-           // 2. Prepare Data for Google Sheets (Using FormData)
+            // 2. Prepare Data for Google Sheets (Add transactionId)
             const sheetData = new FormData();
             sheetData.append("name", name);
             sheetData.append("familyGroup", familyGroup);
@@ -298,16 +317,12 @@
             sheetData.append("age", age);
             sheetData.append("idType", idType);
             sheetData.append("contact", contact);
+            sheetData.append("transactionId", transactionId); // NEW
             sheetData.append("idLink", cloudJson.secure_url);
 
-            // 3. Send to Google Sheets (ADDED mode: "no-cors" to fix browser blocking)
-            const sheetPromise = fetch(GOOGLE_SCRIPT_URL, { 
-                method: "POST", 
-                body: sheetData,
-                mode: "no-cors" 
-            });
+            // ... (Keep the Google fetch the same) ...
             
-            // 4. Prepare & Send to Web3Forms (Email)
+            // 4. Prepare & Send to Web3Forms (Add Transaction ID)
             const emailData = new FormData();
             emailData.append("access_key", WEB3FORMS_KEY);
             emailData.append("subject", "New Registration: " + name);
@@ -317,6 +332,7 @@
             emailData.append("Age", age);
             emailData.append("ID Type", idType);
             emailData.append("Contact", contact);
+            emailData.append("Payment UTR", transactionId); // NEW
             emailData.append("ID Image Link", cloudJson.secure_url);
 
             const emailPromise = fetch("https://api.web3forms.com/submit", { method: "POST", body: emailData });
