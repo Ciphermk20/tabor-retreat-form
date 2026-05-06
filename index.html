@@ -314,7 +314,8 @@ dobInput.addEventListener('input', function() {
             if (!cloudJson.secure_url) throw new Error("Image upload failed");
 
             // 2. Prepare Data for Google Sheets
-            const sheetData = new URLSearchParams();
+           // 2. Prepare Data for Google Sheets (Using FormData)
+            const sheetData = new FormData();
             sheetData.append("name", name);
             sheetData.append("familyGroup", familyGroup);
             sheetData.append("sex", sex);
@@ -323,8 +324,12 @@ dobInput.addEventListener('input', function() {
             sheetData.append("contact", contact);
             sheetData.append("idLink", cloudJson.secure_url);
 
-            // 3. Send to Google Sheets (Runs at the exact same time as Web3Forms)
-            const sheetPromise = fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: sheetData });
+            // 3. Send to Google Sheets (ADDED mode: "no-cors" to fix browser blocking)
+            const sheetPromise = fetch(GOOGLE_SCRIPT_URL, { 
+                method: "POST", 
+                body: sheetData,
+                mode: "no-cors" 
+            });
             
             // 4. Prepare & Send to Web3Forms (Email)
             const emailData = new FormData();
