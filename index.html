@@ -346,11 +346,20 @@ submitBtn.disabled = true;
         try {
             // --- NEW MULTIPLE UPLOAD LOGIC ---
             // Helper function to upload any file to Cloudinary
+            // Helper function to upload any file to Cloudinary
             const uploadToCloudinary = async (file) => {
                 const formData = new FormData();
                 formData.append("file", file);
-                formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
-                const res = await fetch(CLOUDINARY_URL, { method: "POST", body: formData });
+                
+                // 1. PUT YOUR REAL CLOUDINARY PRESET NAME HERE (Inside quotes)
+                formData.append("upload_preset", "retreat_uploads"); 
+                
+                // 2. PUT YOUR REAL CLOUDINARY API URL HERE (Inside quotes)
+                const res = await fetch("https://api.cloudinary.com/v1_1/ddqmjlznq/image/upload", { 
+                    method: "POST", 
+                    body: formData 
+                });
+                
                 const json = await res.json();
                 return json.secure_url;
             };
