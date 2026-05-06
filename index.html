@@ -64,11 +64,12 @@
                                 class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-gray-50 focus:bg-white focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition">
                         </div>
                         
-                        <!-- Family Group -->
+                        <!-- NEW: Accompanying Persons Field -->
                         <div>
-                            <label for="familyGroup" class="block font-bold text-lg mb-2 text-gray-800">Family / Group Name</label>
-                            <input type="text" id="familyGroup" placeholder="Optional"
-                                class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-gray-50 focus:bg-white focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition">
+                            <label for="accompanyingCount" class="block font-bold text-lg mb-2 text-gray-800">Number of Accompanying Guests</label>
+                            <input type="number" id="accompanyingCount" min="0" value="0" placeholder="0" 
+                                class="w-full border-2 border-gray-300 rounded-lg p-3 text-lg bg-white focus:border-indigo-600 focus:ring-0 transition">
+                            <p class="text-sm text-gray-500 mt-1">Leave as 0 if you are attending alone.</p>
                         </div>
                         
                         <!-- Sex -->
@@ -240,6 +241,26 @@
                     </div>
                 </div>
 
+                <!-- NEW: Dynamic Fee Calculation Display -->
+                        <div class="mb-6 p-5 bg-indigo-50 border-2 border-indigo-100 rounded-xl">
+                            <h3 class="font-bold text-gray-800 mb-3 border-b border-indigo-200 pb-2">Fee Calculation Breakdown</h3>
+                            <div class="flex justify-between text-gray-700 mb-2">
+                                <span>Main Applicant:</span>
+                                <span class="font-bold">₹2,500</span>
+                            </div>
+                            <div class="flex justify-between text-gray-700 mb-3">
+                                <span>Accompanying Guests (<span id="guestCountDisplay">0</span>):</span>
+                                <span class="font-bold" id="guestFeeDisplay">₹0</span>
+                            </div>
+                            <div class="flex justify-between text-indigo-900 text-xl font-black mt-3 pt-3 border-t-2 border-indigo-200">
+                                <span>Total Amount to Pay:</span>
+                                <span id="totalAmountDisplay">₹2,500</span>
+                            </div>
+                            <p class="text-sm font-medium text-indigo-700 mt-3">* Note: The registration fee is calculated at strictly ₹2,500 per person.</p>
+                        </div>
+
+
+
                
 
             <!-- Action Button -->
@@ -267,9 +288,32 @@
     <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-    // --- UPDATED CALENDAR LOGIC START ---
-   // Native Calendar Logic with Auto-Age Calculation
-    // --- UPDATED CALENDAR LOGIC END ---
+
+    // --- DYNAMIC FEE CALCULATION ---
+    const accompanyingInput = document.getElementById('accompanyingCount');
+    const guestCountDisplay = document.getElementById('guestCountDisplay');
+    const guestFeeDisplay = document.getElementById('guestFeeDisplay');
+    const totalAmountDisplay = document.getElementById('totalAmountDisplay');
+
+    accompanyingInput.addEventListener('input', function() {
+        // Get the number typed, default to 0 if blank
+        let guests = parseInt(this.value) || 0;
+        
+        // Prevent negative numbers
+        if (guests < 0) {
+            guests = 0;
+            this.value = 0;
+        }
+        
+        // Calculate math
+        let guestFee = guests * 2500;
+        let totalFee = 2500 + guestFee;
+        
+        // Update the receipt UI
+        guestCountDisplay.innerText = guests;
+        guestFeeDisplay.innerText = '₹' + guestFee.toLocaleString('en-IN');
+        totalAmountDisplay.innerText = '₹' + totalFee.toLocaleString('en-IN');
+    });
 
     function toggleDropdown(event, listId) {
         event.stopPropagation(); 
@@ -326,7 +370,9 @@ submitBtn.disabled = true;
         // Gather Values
        // 2. Gather Values
         const name = document.getElementById('name').value.trim();
-        const familyGroup = document.getElementById('familyGroup').value.trim() || "None";
+        const guests = parseInt(document.getElementById('accompanyingCount').value) || 0;
+        const totalPaid = 2500 + (guests * 2500);
+        const familyGroup = guests + " Guests (Total: ₹" + totalPaid + ")";
         const sex = document.getElementById('sex').value;
         const age = document.getElementById('age').value;
         const idType = document.getElementById('idType').value;
