@@ -52,49 +52,49 @@
             <div class="grid grid-cols-1 xl:grid-cols-12 gap-10">
 
                 <!-- LEFT COLUMN: Personal Details -->
+                <!-- LEFT COLUMN: Personal Details -->
                 <div class="xl:col-span-7">
                     <h3 class="font-serif text-2xl font-bold text-blue-900 border-b-2 border-blue-100 pb-3 mb-6">Personal Details</h3>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Name -->
                         <div>
                             <label for="name" class="block font-bold text-lg mb-2 text-gray-800">Full Name *</label>
                             <input type="text" id="name" placeholder="Enter full name"
                                 class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-gray-50 focus:bg-white focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition">
                         </div>
+                        
+                        <!-- Family Group -->
                         <div>
                             <label for="familyGroup" class="block font-bold text-lg mb-2 text-gray-800">Family / Group Name</label>
                             <input type="text" id="familyGroup" placeholder="Optional"
                                 class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-gray-50 focus:bg-white focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition">
                         </div>
                         
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="relative">
-                                <label class="block font-bold text-lg mb-2 text-gray-800">Sex *</label>
-                                <button type="button" onclick="toggleDropdown(event, 'sexList')" class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-gray-50 focus:bg-white focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition flex justify-between items-center text-gray-500">
-                                    <span id="sexSelected">Select</span>
-                                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                                </button>
-                                <div id="sexList" class="dropdown-menu hidden absolute z-20 w-full mt-2 bg-white border-2 border-blue-200 rounded-lg shadow-xl overflow-hidden text-lg">
-                                    <div onclick="selectOption('sex', 'Male')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 border-b border-gray-100 transition">Male</div>
-                                    <div onclick="selectOption('sex', 'Female')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 border-b border-gray-100 transition">Female</div>
-                                    <div onclick="selectOption('sex', 'Other')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 transition">Other</div>
-                                </div>
-                                <input type="hidden" id="sex">
+                        <!-- Sex -->
+                        <div class="relative">
+                            <label class="block font-bold text-lg mb-2 text-gray-800">Sex *</label>
+                            <button type="button" onclick="toggleDropdown(event, 'sexList')" class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-gray-50 focus:bg-white focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition flex justify-between items-center text-gray-500">
+                                <span id="sexSelected">Select</span>
+                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div id="sexList" class="dropdown-menu hidden absolute z-20 w-full mt-2 bg-white border-2 border-blue-200 rounded-lg shadow-xl overflow-hidden text-lg">
+                                <div onclick="selectOption('sex', 'Male')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 border-b border-gray-100 transition">Male</div>
+                                <div onclick="selectOption('sex', 'Female')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 border-b border-gray-100 transition">Female</div>
+                                <div onclick="selectOption('sex', 'Other')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 transition">Other</div>
                             </div>
-
-                            <div>
-    <label for="age" class="block font-bold text-lg mb-2 text-gray-800">Age (Auto)</label>
-    <input type="text" id="age" placeholder="--" readonly
-        class="w-full border-2 border-gray-200 rounded-lg p-4 text-lg bg-gray-100 text-gray-500 cursor-not-allowed outline-none transition">
-</div>
+                            <input type="hidden" id="sex">
                         </div>
 
+                        <!-- Age (Now fully editable) -->
                         <div>
-    <label for="dob" class="block font-bold text-lg mb-2 text-gray-800">Date of Birth *</label>
-    <input type="date" id="dob" max="2026-05-06"
-        class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-gray-50 focus:bg-white focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition text-gray-800">
-</div>  
-                        
+                            <label for="age" class="block font-bold text-lg mb-2 text-gray-800">Age *</label>
+                            <input type="number" id="age" placeholder="Age" min="1" max="120"
+                                oninput="this.value = Math.abs(this.value)"
+                                class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-gray-50 focus:bg-white focus:outline-none focus:border-blue-600 transition">
+                        </div>
+
+                        <!-- ID Type -->
                         <div class="relative md:col-span-2">
                             <label class="block font-bold text-lg mb-2 text-gray-800">Select ID Proof Type *</label>
                             <button type="button" onclick="toggleDropdown(event, 'idTypeList')" class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-gray-50 focus:bg-white focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition flex justify-between items-center text-gray-500">
@@ -109,6 +109,7 @@
                             <input type="hidden" id="idType">
                         </div>
 
+                        <!-- ID Upload -->
                         <div id="uploadContainer" class="hidden md:col-span-2">
                             <label id="uploadLabel" class="block font-bold text-lg mb-2 text-gray-800">Upload ID Document *</label>
                             <div class="flex items-center justify-center w-full">
@@ -209,7 +210,6 @@
 <script>
     // --- UPDATED CALENDAR LOGIC START ---
    // Native Calendar Logic with Auto-Age Calculation
-const dobInput = document.getElementById('dob');
 const ageField = document.getElementById('age');
 
 dobInput.addEventListener('input', function() {
@@ -244,12 +244,16 @@ dobInput.addEventListener('input', function() {
         document.getElementById(listId).classList.toggle('hidden');
     }
 
-    function selectOption(fieldId, value) {
+   function selectOption(fieldId, value) {
         let selectedSpan = document.getElementById(fieldId + 'Selected');
         selectedSpan.innerText = value;
         selectedSpan.classList.remove('text-gray-500'); 
         selectedSpan.classList.add('text-gray-900');    
         document.getElementById(fieldId).value = value;
+        
+        // NEW FIX: This forces the dropdown to close immediately after clicking
+        document.getElementById(fieldId + 'List').classList.add('hidden');
+
         if(fieldId === 'idType') {
             document.getElementById('uploadContainer').classList.remove('hidden');
             document.getElementById('uploadLabel').innerText = "Upload an image of your " + value + " *";
@@ -274,20 +278,32 @@ dobInput.addEventListener('input', function() {
         const submitBtn = event.target.querySelector('button[type="submit"]');
         const originalBtnText = submitBtn.innerText;
         
+        // --- CONFIGURATION ---
         const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/ddqmjlznq/image/upload";
         const UPLOAD_PRESET = "retreat_uploads";
         const WEB3FORMS_KEY = "b9ca0fc7-fd99-417d-9467-6ba261b27802";
+        
+        // PASTE YOUR NEW GOOGLE SCRIPT URL HERE:
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwxdJQUxZTrN76MED7Zldyoqk2CfaED9LfWfQpE21jLLdXNc3xQKj8MZebNxcQ9MbhG/exec"; 
 
+        // Gather Values
         const name = document.getElementById('name').value.trim();
+        const familyGroup = document.getElementById('familyGroup').value.trim() || "None";
+        const sex = document.getElementById('sex').value;
+        const age = document.getElementById('age').value;
         const idType = document.getElementById('idType').value;
+        const contact = document.getElementById('contact').value;
         const idMedia = document.getElementById('idMedia').files[0];
 
-        if (!name || !idType || !idMedia) return alert("Please fill all required fields and upload your ID.");
+        if (!name || !sex || !age || !idType || !idMedia || contact.length !== 10) {
+            return alert("Please fill all required fields correctly.");
+        }
 
-        submitBtn.innerText = "Uploading Image...";
+        submitBtn.innerText = "Processing Registration...";
         submitBtn.disabled = true;
 
         try {
+            // 1. Upload ID to Cloudinary
             const cloudData = new FormData();
             cloudData.append("file", idMedia);
             cloudData.append("upload_preset", UPLOAD_PRESET);
@@ -297,29 +313,42 @@ dobInput.addEventListener('input', function() {
 
             if (!cloudJson.secure_url) throw new Error("Image upload failed");
 
-            submitBtn.innerText = "Sending Registration...";
-            const finalData = new FormData();
-            finalData.append("access_key", WEB3FORMS_KEY);
-            finalData.append("subject", "New Registration: " + name);
-            finalData.append("Full Name", name);
-            finalData.append("ID Type", idType);
-            finalData.append("ID Image Link", cloudJson.secure_url);
-            finalData.append("Age", document.getElementById('age').value);
-            finalData.append("Date of Birth", document.getElementById('dob').value); // Added DOB to final data
-            finalData.append("Contact", document.getElementById('contact').value);
+            // 2. Prepare Data for Google Sheets
+            const sheetData = new URLSearchParams();
+            sheetData.append("name", name);
+            sheetData.append("familyGroup", familyGroup);
+            sheetData.append("sex", sex);
+            sheetData.append("age", age);
+            sheetData.append("idType", idType);
+            sheetData.append("contact", contact);
+            sheetData.append("idLink", cloudJson.secure_url);
 
-            const web3Res = await fetch("https://api.web3forms.com/submit", { method: "POST", body: finalData });
+            // 3. Send to Google Sheets (Runs at the exact same time as Web3Forms)
+            const sheetPromise = fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: sheetData });
             
-            if (web3Res.status === 200) {
-                alert("Success! Your registration has been submitted.");
-                window.location.reload();
-            } else {
-                alert("Submission failed. Please try again.");
-            }
+            // 4. Prepare & Send to Web3Forms (Email)
+            const emailData = new FormData();
+            emailData.append("access_key", WEB3FORMS_KEY);
+            emailData.append("subject", "New Registration: " + name);
+            emailData.append("Full Name", name);
+            emailData.append("Family Group", familyGroup);
+            emailData.append("Sex", sex);
+            emailData.append("Age", age);
+            emailData.append("ID Type", idType);
+            emailData.append("Contact", contact);
+            emailData.append("ID Image Link", cloudJson.secure_url);
+
+            const emailPromise = fetch("https://api.web3forms.com/submit", { method: "POST", body: emailData });
+
+            // Wait for both Google Sheets and Email to finish
+            await Promise.all([sheetPromise, emailPromise]);
+
+            alert("Success! Your registration has been securely submitted.");
+            window.location.reload();
 
         } catch (err) {
             console.error(err);
-            alert("An error occurred. Check the console for details.");
+            alert("An error occurred. Please check your internet connection and try again.");
         } finally {
             submitBtn.innerText = originalBtnText;
             submitBtn.disabled = false;
