@@ -288,8 +288,7 @@
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwxdJQUxZTrN76MED7Zldyoqk2CfaED9LfWfQpE21jLLdXNc3xQKj8MZebNxcQ9MbhG/exec"; 
 
         // Gather Values
-       // Gather Values (Add Transaction ID)
-        const name = document.getElementById('name').value.trim();
+       const name = document.getElementById('name').value.trim();
         const familyGroup = document.getElementById('familyGroup').value.trim() || "None";
         const sex = document.getElementById('sex').value;
         const age = document.getElementById('age').value;
@@ -307,9 +306,19 @@
             return alert("Please complete the payment and enter a valid UPI Transaction ID.");
         }
 
-        // ... (Keep the Cloudinary upload code the same) ...
+        try {
+            // 1. Upload ID to Cloudinary
+            const cloudData = new FormData();
+            cloudData.append("file", idMedia);
+            cloudData.append("upload_preset", UPLOAD_PRESET);
 
-            // 2. Prepare Data for Google Sheets (Add transactionId)
+            const cloudRes = await fetch(CLOUDINARY_URL, { method: "POST", body: cloudData });
+            const cloudJson = await cloudRes.json();
+
+            if (!cloudJson.secure_url) throw new Error("Image upload failed");
+
+            // 2. Prepare Data for Google Sheets
+           // 2. Prepare Data for Google Sheets (Using FormData)
             const sheetData = new FormData();
             sheetData.append("name", name);
             sheetData.append("familyGroup", familyGroup);
@@ -320,10 +329,15 @@
             sheetData.append("transactionId", transactionId); // NEW
             sheetData.append("idLink", cloudJson.secure_url);
 
-            // ... (Keep the Google fetch the same) ...
+            // 3. Send to Google Sheets (ADDED mode: "no-cors" to fix browser blocking)
+            const sheetPromise = fetch(GOOGLE_SCRIPT_URL, { 
+                method: "POST", 
+                body: sheetData,
+                mode: "no-cors" 
+            });
             
-            // 4. Prepare & Send to Web3Forms (Add Transaction ID)
-            const emailData = new FormData();
+            // 4. Prepare & Send to Web3Forms (Email)
+           const emailData = new FormData();
             emailData.append("access_key", WEB3FORMS_KEY);
             emailData.append("subject", "New Registration: " + name);
             emailData.append("Full Name", name);
