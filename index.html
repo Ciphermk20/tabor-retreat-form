@@ -210,29 +210,6 @@
 <script>
     // --- UPDATED CALENDAR LOGIC START ---
    // Native Calendar Logic with Auto-Age Calculation
-
-dobInput.addEventListener('input', function() {
-    if (this.value) {
-        const birthDate = new Date(this.value);
-        const today = new Date();
-        
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const monthDiff = today.getMonth() - birthDate.getMonth();
-        
-        // Adjust age if birthday hasn't happened yet this year
-        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
-        }
-        
-        if (age >= 0) {
-            ageField.value = age;
-            ageField.classList.remove('text-gray-500');
-            ageField.classList.add('text-blue-900', 'font-bold');
-        } else {
-            ageField.value = "";
-        }
-    }
-});
     // --- UPDATED CALENDAR LOGIC END ---
 
     function toggleDropdown(event, listId) {
