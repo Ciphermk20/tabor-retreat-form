@@ -231,10 +231,11 @@
                                 Pay ₹2,500 via App
                             </a>
 
-                            <label for="transactionId" class="block font-bold text-lg mb-2 text-gray-800">UPI Transaction ID (UTR) *</label>
-                            <input type="text" id="transactionId" placeholder="Enter 12-digit UTR number" maxlength="12"
-                                class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-white focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 transition">
-                            <p class="text-sm text-gray-500 mt-2">After paying, paste the 12-digit UTR found in your GPay/PhonePe history.</p>
+                            <!-- NEW: Payment Screenshot Upload (Replaces UTR Text Box) -->
+                            <label for="paymentScreenshot" class="block font-bold text-lg mb-2 text-gray-800 mt-6">Upload Payment Screenshot *</label>
+                            <input type="file" id="paymentScreenshot" accept="image/*" required
+                                class="w-full border-2 border-gray-300 rounded-lg p-3 text-lg bg-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 transition">
+                            <p class="text-sm text-gray-500 mt-2">Take a screenshot of the successful payment screen and upload it here.</p>
                         </div>
                     </div>
                 </div>
@@ -323,37 +324,45 @@ submitBtn.disabled = true;
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwxdJQUxZTrN76MED7Zldyoqk2CfaED9LfWfQpE21jLLdXNc3xQKj8MZebNxcQ9MbhG/exec"; 
 
         // Gather Values
-       const name = document.getElementById('name').value.trim();
+       // 2. Gather Values
+        const name = document.getElementById('name').value.trim();
         const familyGroup = document.getElementById('familyGroup').value.trim() || "None";
         const sex = document.getElementById('sex').value;
         const age = document.getElementById('age').value;
         const idType = document.getElementById('idType').value;
         const contact = document.getElementById('contact').value;
         const idMedia = document.getElementById('idMedia').files[0];
-        // NEW: Get the Transaction ID
-        const transactionId = document.getElementById('transactionId').value.trim();
+        
+        // NEW: Grab the Payment Screenshot instead of UTR
+        const paymentScreenshot = document.getElementById('paymentScreenshot').files[0];
 
-        // Validation (Require transaction ID)
-        if (!name || !sex || !age || !idType || !idMedia || contact.length !== 10) {
-            return alert("Please fill all required fields correctly.");
-        }
-        if (transactionId.length < 8) {
-            return alert("Please complete the payment and enter a valid UPI Transaction ID.");
+        // Validation 
+        if (!name || !sex || !age || !idType || !idMedia || !paymentScreenshot || contact.length !== 10) {
+            submitBtn.innerText = originalBtnText;
+            submitBtn.disabled = false;
+            return alert("Please fill all required fields and upload both images.");
         }
 
         try {
-            // 1. Upload ID to Cloudinary
-            const cloudData = new FormData();
-            cloudData.append("file", idMedia);
-            cloudData.append("upload_preset", UPLOAD_PRESET);
+            // --- NEW MULTIPLE UPLOAD LOGIC ---
+            // Helper function to upload any file to Cloudinary
+            const uploadToCloudinary = async (file) => {
+                const formData = new FormData();
+                formData.append("file", file);
+                formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+                const res = await fetch(CLOUDINARY_URL, { method: "POST", body: formData });
+                const json = await res.json();
+                return json.secure_url;
+            };
 
-            const cloudRes = await fetch(CLOUDINARY_URL, { method: "POST", body: cloudData });
-            const cloudJson = await cloudRes.json();
+            // Upload BOTH images at the exact same time (Much faster!)
+            const [idLink, paymentLink] = await Promise.all([
+                uploadToCloudinary(idMedia),
+                uploadToCloudinary(paymentScreenshot)
+            ]);
+            // ---------------------------------
 
-            if (!cloudJson.secure_url) throw new Error("Image upload failed");
-
-            // 2. Prepare Data for Google Sheets
-           // 2. Prepare Data for Google Sheets (Using FormData)
+            // 3. Prepare Data for Google Sheets
             const sheetData = new FormData();
             sheetData.append("name", name);
             sheetData.append("familyGroup", familyGroup);
@@ -361,28 +370,20 @@ submitBtn.disabled = true;
             sheetData.append("age", age);
             sheetData.append("idType", idType);
             sheetData.append("contact", contact);
-            sheetData.append("transactionId", transactionId); // NEW
-            sheetData.append("idLink", cloudJson.secure_url);
+            sheetData.append("transactionId", paymentLink); // Sending the Image Link instead of UTR
+            sheetData.append("idLink", idLink);
 
-            // 3. Send to Google Sheets (ADDED mode: "no-cors" to fix browser blocking)
-            const sheetPromise = fetch(GOOGLE_SCRIPT_URL, { 
-                method: "POST", 
-                body: sheetData,
-                mode: "no-cors" 
-            });
+            const sheetPromise = fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: sheetData });
             
-            // 4. Prepare & Send to Web3Forms (Email)
-           const emailData = new FormData();
+            // 4. Prepare Data for Email
+            const emailData = new FormData();
             emailData.append("access_key", WEB3FORMS_KEY);
             emailData.append("subject", "New Registration: " + name);
             emailData.append("Full Name", name);
             emailData.append("Family Group", familyGroup);
-            emailData.append("Sex", sex);
-            emailData.append("Age", age);
-            emailData.append("ID Type", idType);
             emailData.append("Contact", contact);
-            emailData.append("Payment UTR", transactionId); // NEW
-            emailData.append("ID Image Link", cloudJson.secure_url);
+            emailData.append("Payment Proof", paymentLink); // NEW
+            emailData.append("ID Image", idLink);
 
             const emailPromise = fetch("https://api.web3forms.com/submit", { method: "POST", body: emailData });
 
