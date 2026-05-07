@@ -225,10 +225,12 @@
 
         <div class="mt-4 flex flex-col items-center mb-8">
             <p class="text-sm text-gray-600 mb-2 font-bold">Or scan this QR from another phone:</p>
-            <img id="dynamicQrCode" 
-                 src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=7021132044@ptsbi%26pn=Tabor%20Ashram%26am=2500%26cu=INR" 
-                 alt="Payment QR Code" 
-                 class="border-4 border-white shadow-md rounded-lg w-48 h-48">
+            
+            <img src="qr.png" 
+                 alt="Mathew Francis QR Code" 
+                 class="border-4 border-white shadow-md rounded-lg w-56 h-auto">
+                 
+            <p class="text-xs text-gray-500 mt-2 font-bold text-red-500">Please enter the exact Total Amount shown above when scanning.</p>
         </div>
 
         <div class="text-left bg-white p-4 rounded-lg border-2 border-gray-200">
@@ -293,59 +295,50 @@
    // ==========================================
     // DYNAMIC PRICING, UPI, & QR CODE LOGIC
     // ==========================================
+  // ==========================================
+    // DYNAMIC PRICING & UPI LOGIC
+    // ==========================================
     const guestInput = document.getElementById('accompanyingCount');
     const guestCountDisplay = document.getElementById('guestCountDisplay');
     const guestFeeDisplay = document.getElementById('guestFeeDisplay');
     const totalAmountDisplay = document.getElementById('totalAmountDisplay');
     const upiButton = document.getElementById('dynamicUpiLink');
-    const qrImage = document.getElementById('dynamicQrCode');
+    // Note: We completely removed the qrImage variable here!
 
     function updatePricingAndLinks() {
-        // Get the number of extra people (fallback to 0 if blank)
         let extraGuests = parseInt(guestInput.value) || 0;
         
-        // Prevent negative numbers
         if (extraGuests < 0) {
             extraGuests = 0;
             guestInput.value = 0;
         }
 
-        // Calculate the math
-        let totalPeople = 1 + extraGuests;          // 1 Main applicant + extra guests
-        let totalFee = totalPeople * 2500;          // Multiply total people by ₹2500
-        let extraGuestFee = extraGuests * 2500;     // Just the fee for the guests
+        let totalPeople = 1 + extraGuests;          
+        let totalFee = totalPeople * 2500;          
+        let extraGuestFee = extraGuests * 2500;     
 
-        // Update the visual receipt on the screen
         if (guestCountDisplay) guestCountDisplay.innerText = extraGuests;
         if (guestFeeDisplay) guestFeeDisplay.innerText = '₹' + extraGuestFee.toLocaleString('en-IN');
         if (totalAmountDisplay) totalAmountDisplay.innerText = '₹' + totalFee.toLocaleString('en-IN');
 
-        // Prepare the exact UPI string
-        const upiID = "7021132044@ptsbi";
-        const payeeName = "Tabor Ashram";
+        // --- UPDATED WITH MATHEW'S EXACT DETAILS ---
+        const upiID = "mathewfrancis184@okhdfcbank";
+        const payeeName = "Mathew Francis";
         const note = "Retreat Fee for " + totalPeople + " Person(s)";
         
-        // The raw link for the green GPay button
         const upiString = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(payeeName)}&am=${totalFee}&cu=INR&tn=${encodeURIComponent(note)}`;
         
-        // Update the Clickable Button
         if (upiButton) {
             upiButton.setAttribute('href', upiString);
         }
-
-        // Update the Visible QR Code Image
-        if (qrImage) {
-            const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiString)}`;
-            qrImage.setAttribute('src', qrApiUrl);
-        }
+        // Note: The old dynamic QR code generation block is completely deleted from here!
     }
 
-    // Listen for the user typing or clicking arrows
     if (guestInput) {
         guestInput.addEventListener('input', updatePricingAndLinks);
-        // Run it once immediately when the page loads to set the defaults to ₹2500!
         updatePricingAndLinks();
     }
+    // ==========================================
     // ==========================================
 
 
