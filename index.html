@@ -65,12 +65,12 @@
                         </div>
                         
                         <!-- NEW: Accompanying Persons Field -->
-                        <div>
-                            <label for="accompanyingCount" class="block font-bold text-lg mb-2 text-gray-800">Number of Accompanying Guests</label>
-                            <input type="number" id="accompanyingCount" min="0" value="0" placeholder="0" 
-                                class="w-full border-2 border-gray-300 rounded-lg p-3 text-lg bg-white focus:border-indigo-600 focus:ring-0 transition">
-                            <p class="text-sm text-gray-500 mt-1">Leave as 0 if you are attending alone.</p>
-                        </div>
+                        <div class="mb-6">
+    <label for="accompanyingCount" class="block font-bold text-lg mb-2 text-gray-800">Number of Accompanying Guests</label>
+    <input type="number" id="accompanyingCount" min="0" value="0" placeholder="0" 
+        class="w-full border-2 border-gray-300 rounded-lg p-3 text-lg bg-white focus:border-indigo-600 focus:ring-0 transition">
+    <p class="text-sm text-gray-500 mt-1">Leave as 0 if you are attending alone.</p>
+</div>  
                         
                         <!-- Sex -->
                         <div class="relative">
@@ -197,49 +197,48 @@
             </div>
 
             <!-- PAYMENT SECTION (UPDATED WITH ₹2500 AMOUNT) -->
-                <div class="mt-8 border-t-2 border-blue-100 pt-6">
-                    <h3 class="font-serif text-2xl font-bold text-blue-900 mb-4">Registration Payment</h3>
-                    <div class="bg-indigo-50 rounded-xl p-6 border-2 border-indigo-200 flex flex-col md:flex-row items-center gap-8">
-                        
-                        <!-- Clickable QR Code (Pre-filled with 2500) -->
-                        <a href="upi://pay?pa=mathewfrancis184@okhdfcbank&pn=Tabor%20Ashram&am=2500&cu=INR" 
-                           class="w-48 h-48 bg-white border-2 border-indigo-300 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden shadow-sm hover:border-indigo-500 transition cursor-pointer relative group">
-                            
-                            <img src="qr.jpg" alt="UPI QR Code" class="w-full h-full object-cover group-hover:opacity-30 transition" 
-                                onerror="this.outerHTML='<div class=\'text-center p-4 text-sm text-gray-500\'>Please add qr.jpg to your project folder</div>'">
-                            
-                            <!-- Hover Overlay -->
-                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition pointer-events-none">
-                                <span class="bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg text-sm text-center">Tap to pay<br>₹2,500</span>
-                            </div>
-                        </a>
-                        
-                        <div class="flex-grow w-full">
-                            <!-- NEW: Prominent Fee Display -->
-                            <div class="bg-white border-l-4 border-indigo-600 p-4 rounded shadow-sm mb-4">
-                                <p class="text-gray-500 text-sm font-bold uppercase tracking-wide">Mandatory Registration Fee</p>
-                                <p class="text-3xl font-black text-gray-900 mt-1">₹2,500</p>
-                            </div>
+               <div class="mb-8 p-6 bg-gray-50 border-2 border-gray-200 rounded-xl">
+    <h3 class="font-bold text-2xl text-gray-800 mb-4 border-b-2 border-gray-300 pb-2">Step 3: Registration Fee</h3>
+    
+    <div class="mb-6 p-5 bg-indigo-50 border-2 border-indigo-100 rounded-xl">
+        <h4 class="font-bold text-gray-800 mb-3 border-b border-indigo-200 pb-2">Fee Calculation Breakdown</h4>
+        <div class="flex justify-between text-gray-700 mb-2">
+            <span>Main Applicant:</span>
+            <span class="font-bold">₹2,500</span>
+        </div>
+        <div class="flex justify-between text-gray-700 mb-3">
+            <span>Accompanying Guests (<span id="guestCountDisplay">0</span>):</span>
+            <span class="font-bold" id="guestFeeDisplay">₹0</span>
+        </div>
+        <div class="flex justify-between text-indigo-900 text-xl font-black mt-3 pt-3 border-t-2 border-indigo-200">
+            <span>Total Amount to Pay:</span>
+            <span id="totalAmountDisplay">₹2,500</span>
+        </div>
+        <p class="text-sm font-medium text-indigo-700 mt-3">* Note: The registration fee is calculated at strictly ₹2,500 per person.</p>
+    </div>
 
-                            <p class="text-gray-800 text-lg mb-2">Scan the QR code OR <strong class="text-indigo-700">tap it from your phone</strong> to open your UPI app directly.</p>
-                            
-                            <p class="text-gray-600 mb-4">UPI ID: <span class="font-bold text-indigo-800">mathewfrancis184@okhdfcbank</span></p>
-                            
-                            <!-- Mobile-Only "Pay Now" Button (Pre-filled with 2500) -->
-                            <a href="upi://pay?pa=mathewfrancis184@okhdfcbank&pn=Tabor%20Ashram&am=2500&cu=INR" 
-                               class="md:hidden block w-full bg-indigo-600 hover:bg-indigo-700 text-white text-center font-bold py-3 px-4 rounded-lg mb-6 shadow-md transition flex items-center justify-center gap-2">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                                Pay ₹2,500 via App
-                            </a>
+    <div class="text-center">
+        <a id="dynamicUpiLink" href="upi://pay?pa=7021132044@ptsbi&pn=Tabor%20Ashram&am=2500&cu=INR" 
+           class="block w-full bg-green-600 text-white text-center font-bold py-4 rounded-lg shadow-lg hover:bg-green-700 transition mb-6">
+           Pay via UPI (GPay / PhonePe / Paytm)
+        </a>
 
-                            <!-- NEW: Payment Screenshot Upload (Replaces UTR Text Box) -->
-                            <label for="paymentScreenshot" class="block font-bold text-lg mb-2 text-gray-800 mt-6">Upload Payment Screenshot *</label>
-                            <input type="file" id="paymentScreenshot" accept="image/*" required
-                                class="w-full border-2 border-gray-300 rounded-lg p-3 text-lg bg-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 transition">
-                            <p class="text-sm text-gray-500 mt-2">Take a screenshot of the successful payment screen and upload it here.</p>
-                        </div>
-                    </div>
-                </div>
+        <div class="mt-4 flex flex-col items-center mb-8">
+            <p class="text-sm text-gray-600 mb-2 font-bold">Or scan this QR from another phone:</p>
+            <img id="dynamicQrCode" 
+                 src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=7021132044@ptsbi%26pn=Tabor%20Ashram%26am=2500%26cu=INR" 
+                 alt="Payment QR Code" 
+                 class="border-4 border-white shadow-md rounded-lg w-48 h-48">
+        </div>
+
+        <div class="text-left bg-white p-4 rounded-lg border-2 border-gray-200">
+            <label for="paymentScreenshot" class="block font-bold text-lg mb-2 text-gray-800">Upload Payment Screenshot *</label>
+            <input type="file" id="paymentScreenshot" accept="image/*" required
+                class="w-full border-2 border-gray-300 rounded-lg p-3 text-lg bg-gray-50 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 transition">
+            <p class="text-sm text-gray-500 mt-2">Take a screenshot of the successful payment screen and upload it here to verify your registration.</p>
+        </div>
+    </div>
+</div>
 
                 <!-- NEW: Dynamic Fee Calculation Display -->
                         <div class="mb-6 p-5 bg-indigo-50 border-2 border-indigo-100 rounded-xl">
@@ -289,32 +288,68 @@
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
 
-    // --- DYNAMIC FEE CALCULATION ---
-    const accompanyingInput = document.getElementById('accompanyingCount');
+    
+
+   // ==========================================
+    // DYNAMIC PRICING, UPI, & QR CODE LOGIC
+    // ==========================================
+    const guestInput = document.getElementById('accompanyingCount');
     const guestCountDisplay = document.getElementById('guestCountDisplay');
     const guestFeeDisplay = document.getElementById('guestFeeDisplay');
     const totalAmountDisplay = document.getElementById('totalAmountDisplay');
+    const upiButton = document.getElementById('dynamicUpiLink');
+    const qrImage = document.getElementById('dynamicQrCode');
 
-    accompanyingInput.addEventListener('input', function() {
-        // Get the number typed, default to 0 if blank
-        let guests = parseInt(this.value) || 0;
+    function updatePricingAndLinks() {
+        // Get the number of extra people (fallback to 0 if blank)
+        let extraGuests = parseInt(guestInput.value) || 0;
         
         // Prevent negative numbers
-        if (guests < 0) {
-            guests = 0;
-            this.value = 0;
+        if (extraGuests < 0) {
+            extraGuests = 0;
+            guestInput.value = 0;
         }
-        
-        // Calculate math
-        let guestFee = guests * 2500;
-        let totalFee = 2500 + guestFee;
-        
-        // Update the receipt UI
-        guestCountDisplay.innerText = guests;
-        guestFeeDisplay.innerText = '₹' + guestFee.toLocaleString('en-IN');
-        totalAmountDisplay.innerText = '₹' + totalFee.toLocaleString('en-IN');
-    });
 
+        // Calculate the math
+        let totalPeople = 1 + extraGuests;          // 1 Main applicant + extra guests
+        let totalFee = totalPeople * 2500;          // Multiply total people by ₹2500
+        let extraGuestFee = extraGuests * 2500;     // Just the fee for the guests
+
+        // Update the visual receipt on the screen
+        if (guestCountDisplay) guestCountDisplay.innerText = extraGuests;
+        if (guestFeeDisplay) guestFeeDisplay.innerText = '₹' + extraGuestFee.toLocaleString('en-IN');
+        if (totalAmountDisplay) totalAmountDisplay.innerText = '₹' + totalFee.toLocaleString('en-IN');
+
+        // Prepare the exact UPI string
+        const upiID = "7021132044@ptsbi";
+        const payeeName = "Tabor Ashram";
+        const note = "Retreat Fee for " + totalPeople + " Person(s)";
+        
+        // The raw link for the green GPay button
+        const upiString = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(payeeName)}&am=${totalFee}&cu=INR&tn=${encodeURIComponent(note)}`;
+        
+        // Update the Clickable Button
+        if (upiButton) {
+            upiButton.setAttribute('href', upiString);
+        }
+
+        // Update the Visible QR Code Image
+        if (qrImage) {
+            const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiString)}`;
+            qrImage.setAttribute('src', qrApiUrl);
+        }
+    }
+
+    // Listen for the user typing or clicking arrows
+    if (guestInput) {
+        guestInput.addEventListener('input', updatePricingAndLinks);
+        // Run it once immediately when the page loads to set the defaults to ₹2500!
+        updatePricingAndLinks();
+    }
+    // ==========================================
+
+
+    // --- UI HELPER FUNCTIONS (Do not delete these!) ---
     function toggleDropdown(event, listId) {
         event.stopPropagation(); 
         document.querySelectorAll('.dropdown-menu').forEach(menu => {
@@ -323,14 +358,13 @@
         document.getElementById(listId).classList.toggle('hidden');
     }
 
-   function selectOption(fieldId, value) {
+    function selectOption(fieldId, value) {
         let selectedSpan = document.getElementById(fieldId + 'Selected');
         selectedSpan.innerText = value;
         selectedSpan.classList.remove('text-gray-500'); 
         selectedSpan.classList.add('text-gray-900');    
         document.getElementById(fieldId).value = value;
         
-        // NEW FIX: This forces the dropdown to close immediately after clicking
         document.getElementById(fieldId + 'List').classList.add('hidden');
 
         if(fieldId === 'idType') {
@@ -351,13 +385,15 @@
         document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.add('hidden'));
     }
 
+
+    // --- MAIN FORM SUBMISSION ---
     document.getElementById('accessibleForm').addEventListener('submit', async function(event) {
         event.preventDefault();
 
         const submitBtn = event.target.querySelector('button[type="submit"]');
         const originalBtnText = submitBtn.innerText;
         submitBtn.innerText = "Please wait... Processing Payment & Registration";
-submitBtn.disabled = true;
+        submitBtn.disabled = true;
         
         // --- CONFIGURATION ---
         const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/ddqmjlznq/image/upload";
