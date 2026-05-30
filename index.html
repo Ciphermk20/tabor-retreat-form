@@ -112,10 +112,13 @@
                     </div>
                 </div>
 
-                <div class="flex items-center pt-2">
-                    <input type="checkbox" id="consent" class="w-4 h-4 text-purple-700 border-gray-300 rounded focus:ring-purple-700 cursor-pointer" required>
-                    <label for="consent" class="ml-2 text-sm text-gray-800 cursor-pointer">I undertake and consent to attend this retreat. <span class="text-red-500">*</span></label>
+               <div class="flex items-center mt-2">
+                    <input type="checkbox" id="addParticipants" class="w-4 h-4 text-purple-700 border-gray-300 rounded focus:ring-purple-700 cursor-pointer">
+                    <label for="addParticipants" class="ml-2 text-sm font-semibold text-gray-800 cursor-pointer">I wish to add more participants.</label>
                 </div>
+
+                <div id="extraParticipantsContainer" class="hidden space-y-4 border-l-4 border-purple-600 pl-4 mt-4">
+                    </div>
 
                 <div class="pt-4">
                     <button type="submit" id="submitBtn" class="bg-[#4B128E] hover:bg-[#3a0d6e] text-white font-bold py-3 px-8 rounded-full shadow-md transition duration-200 text-sm tracking-wide w-full md:w-auto">
@@ -135,9 +138,84 @@
     </div>
 
     <script>
-        // INSERT YOUR NEW GOOGLE SCRIPT URL HERE
         const GOOGLE_SCRIPT_URL = "YOUR_NEW_APPS_SCRIPT_URL_HERE";
 
+        // --- DYNAMIC PARTICIPANTS LOGIC ---
+        const addParticipantsCheckbox = document.getElementById('addParticipants');
+        const extraContainer = document.getElementById('extraParticipantsContainer');
+
+        // Toggle visibility when checkbox is clicked
+        addParticipantsCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                extraContainer.classList.remove('hidden');
+                // Automatically add the first empty block if the container is empty
+                if (extraContainer.children.length === 0) {
+                    addParticipantBlock();
+                }
+            } else {
+                extraContainer.classList.add('hidden');
+                extraContainer.innerHTML = ''; // Clear out data if unchecked
+            }
+        });
+
+        // Function to create and inject a new participant block
+        function addParticipantBlock() {
+            const block = document.createElement('div');
+            block.className = "participant-block bg-gray-50 p-4 border border-gray-200 rounded-lg relative";
+            
+            block.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-800 mb-1">Full Name</label>
+                        <input type="text" class="extra-name w-full border border-gray-300 rounded-md p-2.5 text-sm outline-none focus:border-purple-700" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-800 mb-1">DOB</label>
+                        <input type="date" class="extra-dob w-full border border-gray-300 rounded-md p-2.5 text-sm outline-none focus:border-purple-700" required>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-800 mb-1">Aadhar Number</label>
+                        <input type="text" class="extra-aadhar w-full border border-gray-300 rounded-md p-2.5 text-sm outline-none focus:border-purple-700" required>
+                    </div>
+                    <div class="flex gap-2">
+                        <div class="flex-grow">
+                            <label class="block text-sm font-semibold text-gray-800 mb-1">Phone Number</label>
+                            <input type="tel" class="extra-phone w-full border border-gray-300 rounded-md p-2.5 text-sm outline-none focus:border-purple-700" placeholder="+91 " required>
+                        </div>
+                        
+                        <div class="flex gap-2 pb-0.5">
+                            <button type="button" class="add-btn h-[42px] w-[42px] flex items-center justify-center border-2 border-green-600 rounded-md hover:bg-green-50 transition">
+                                <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            </button>
+                            <button type="button" class="delete-btn h-[42px] w-[42px] flex items-center justify-center border-2 border-red-600 rounded-md hover:bg-red-50 transition">
+                                <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Attach event listener to the NEW [+] button
+            block.querySelector('.add-btn').addEventListener('click', addParticipantBlock);
+
+            // Attach event listener to the NEW [Trash] button
+            block.querySelector('.delete-btn').addEventListener('click', function() {
+                if (extraContainer.children.length > 1) {
+                    block.remove(); // Delete this specific row
+                } else {
+                    // If it's the last row, uncheck the box and hide everything
+                    extraContainer.innerHTML = '';
+                    addParticipantsCheckbox.checked = false;
+                    extraContainer.classList.add('hidden');
+                }
+            });
+
+            extraContainer.appendChild(block);
+        }
+
+        // --- FORM SUBMISSION LOGIC ---
         document.getElementById('taborForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -149,9 +227,10 @@
 
             try {
                 const formData = new FormData();
+                
+                // 1. Gather Standard Fields
                 formData.append("fullName", document.getElementById('fullName').value);
                 formData.append("dob", document.getElementById('dob').value);
-                // Prepend the +91 so it looks clean in the database
                 formData.append("phone", "+91 " + document.getElementById('phone').value); 
                 formData.append("email", document.getElementById('email').value);
                 formData.append("aadhar", document.getElementById('aadhar').value);
@@ -161,15 +240,30 @@
                 formData.append("startDate", document.getElementById('startDate').value);
                 formData.append("endDate", document.getElementById('endDate').value);
                 formData.append("venue", document.getElementById('venue').value);
-                
-                // Convert checkboxes to Yes/No
                 formData.append("addParticipants", document.getElementById('addParticipants').checked ? "Yes" : "No");
                 formData.append("address", document.getElementById('address').value);
                 formData.append("emergencyName", document.getElementById('emergencyName').value);
                 formData.append("emergencyAddress", document.getElementById('emergencyAddress').value);
                 formData.append("consent", document.getElementById('consent').checked ? "Yes" : "No");
 
-                // Send to Google Sheets
+                // 2. Gather DYNAMIC Extra Participants Data
+                let extraParticipantsData = [];
+                if (document.getElementById('addParticipants').checked) {
+                    const blocks = document.querySelectorAll('.participant-block');
+                    blocks.forEach(block => {
+                        extraParticipantsData.push({
+                            name: block.querySelector('.extra-name').value,
+                            dob: block.querySelector('.extra-dob').value,
+                            aadhar: block.querySelector('.extra-aadhar').value,
+                            phone: block.querySelector('.extra-phone').value
+                        });
+                    });
+                }
+                
+                // Convert array to a JSON string so Google Sheets can receive it safely
+                formData.append("extraParticipantsList", JSON.stringify(extraParticipantsData));
+
+                // 3. Send to Google Sheets
                 const response = await fetch(GOOGLE_SCRIPT_URL, { 
                     method: "POST", 
                     body: formData 
@@ -178,7 +272,6 @@
                 const result = await response.json();
 
                 if (result.result === "success") {
-                    // Hide the form, show the success message
                     document.getElementById('formContainer').classList.add('hidden');
                     document.getElementById('successMessage').classList.remove('hidden');
                 } else {
