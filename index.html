@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tabor Ashram Registration Form</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    
+    <style>
+        /* Small tweak to make the jQuery calendar sit nicely on top of Tailwind */
+        .ui-datepicker { font-family: inherit; font-size: 14px; padding: 0.5em; }
+        .ui-datepicker select.ui-datepicker-month, .ui-datepicker select.ui-datepicker-year {
+            padding: 2px; border-radius: 4px; border: 1px solid #ccc;
+        }
+    </style>
 </head>
 <body class="bg-[#f3f4f6] font-sans text-gray-800 antialiased selection:bg-purple-200 selection:text-purple-900">
 
@@ -27,16 +39,16 @@
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-800 mb-1">DOB <span class="text-red-500">*</span></label>
-                        <input type="date" id="dob" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 focus:border-purple-700 outline-none" required>
+                        <input type="text" id="dob" class="custom-datepicker w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 focus:border-purple-700 outline-none bg-white cursor-pointer" placeholder="dd/mm/yyyy" readonly required>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div>
                         <label class="block text-sm font-semibold text-gray-800 mb-1">Phone Number <span class="text-red-500">*</span></label>
-                        <div class="flex border border-gray-300 rounded-md overflow-hidden focus-within:ring-2 focus-within:ring-purple-700 focus-within:border-purple-700">
+                        <div class="flex border border-gray-300 rounded-md overflow-hidden bg-white focus-within:ring-2 focus-within:ring-purple-700 focus-within:border-purple-700">
                             <span class="bg-gray-50 text-gray-600 px-3 py-2.5 border-r border-gray-300 text-sm font-medium">+91</span>
-                            <input type="tel" id="phone" placeholder="9096471356" pattern="[0-9]{10}" class="w-full p-2.5 text-sm outline-none" required>
+                            <input type="tel" id="phone" maxlength="10" pattern="\d{10}" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="10-digit number" class="w-full p-2.5 text-sm outline-none" required>
                         </div>
                     </div>
                     <div>
@@ -45,7 +57,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-800 mb-1">Aadhar Number <span class="text-red-500">*</span></label>
-                        <input type="text" id="aadhar" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 focus:border-purple-700 outline-none" required>
+                        <input type="text" id="aadhar" maxlength="12" pattern="\d{12}" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="12-digit number" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 focus:border-purple-700 outline-none" required>
                     </div>
                 </div>
 
@@ -60,65 +72,46 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-800 mb-1">Retreat <span class="text-red-500">*</span></label>
-                        <select id="retreat" class="w-full border border-gray-300 rounded-md p-2.5 text-sm bg-white focus:ring-2 focus:ring-purple-700 focus:border-purple-700 outline-none" required>
-                            <option value="">Select a Retreat</option>
-                            <option value="Inner Healing">Inner Healing Retreat</option>
-                            <option value="Growth">National Growth Retreat</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
                         <label class="block text-sm font-semibold text-gray-800 mb-1">Any diseases? (if any please specify)</label>
-                        <textarea id="diseases" rows="2" placeholder="Please mention if any physical or mental conditions, medications, or allergies" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 focus:border-purple-700 outline-none resize-none"></textarea>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-800 mb-1">Retreat Start Date</label>
-                            <input type="date" id="startDate" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-800 mb-1">Retreat End Date</label>
-                            <input type="date" id="endDate" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 outline-none">
-                        </div>
+                        <textarea id="diseases" rows="1" placeholder="Physical/mental conditions, medications, allergies" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 focus:border-purple-700 outline-none resize-none"></textarea>
                     </div>
                 </div>
 
-                <div>
-                    <label class="block text-sm font-semibold text-gray-800 mb-1">Retreat Venue</label>
-                    <input type="text" id="venue" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 outline-none">
-                </div>
-
-                <div class="flex items-center mt-2">
-                    <input type="checkbox" id="addParticipants" class="w-4 h-4 text-purple-700 border-gray-300 rounded focus:ring-purple-700 cursor-pointer">
-                    <label for="addParticipants" class="ml-2 text-sm text-gray-800 cursor-pointer">I wish to add more participants.</label>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-semibold text-gray-800 mb-1">Address <span class="text-red-500">*</span></label>
-                    <textarea id="address" rows="3" placeholder="123, Buffalo Street NY, USA" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 outline-none resize-none" required></textarea>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-800 mb-1">Emergency Contact Name <span class="text-red-500">*</span></label>
-                        <input type="text" id="emergencyName" placeholder="Enter emergency contact full name" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 outline-none" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-800 mb-1">Emergency Contact Address <span class="text-red-500">*</span></label>
-                        <textarea id="emergencyAddress" rows="2" placeholder="Enter emergency contact address" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 outline-none resize-none" required></textarea>
-                    </div>
-                </div>
-
-               <div class="flex items-center mt-2">
+                <div class="flex items-center mt-2 border-t border-gray-100 pt-4">
                     <input type="checkbox" id="addParticipants" class="w-4 h-4 text-purple-700 border-gray-300 rounded focus:ring-purple-700 cursor-pointer">
                     <label for="addParticipants" class="ml-2 text-sm font-semibold text-gray-800 cursor-pointer">I wish to add more participants.</label>
                 </div>
 
                 <div id="extraParticipantsContainer" class="hidden space-y-4 border-l-4 border-purple-600 pl-4 mt-4">
                     </div>
+
+                <div class="pt-2">
+                    <label class="block text-sm font-semibold text-gray-800 mb-1">Address <span class="text-red-500">*</span></label>
+                    <textarea id="address" rows="2" placeholder="Full residential address" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 outline-none resize-none" required></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-red-50 p-4 rounded-lg border border-red-100">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-800 mb-1">Emergency Contact Name <span class="text-red-500">*</span></label>
+                        <input type="text" id="emergencyName" placeholder="Full name" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 outline-none bg-white" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-800 mb-1">Emergency Contact Number <span class="text-red-500">*</span></label>
+                        <div class="flex border border-gray-300 rounded-md overflow-hidden bg-white focus-within:ring-2 focus-within:ring-purple-700">
+                            <span class="bg-gray-50 text-gray-600 px-3 py-2.5 border-r border-gray-300 text-sm font-medium">+91</span>
+                            <input type="tel" id="emergencyPhone" maxlength="10" pattern="\d{10}" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="10-digit number" class="w-full p-2.5 text-sm outline-none" required>
+                        </div>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold text-gray-800 mb-1">Emergency Contact Address <span class="text-red-500">*</span></label>
+                        <textarea id="emergencyAddress" rows="2" placeholder="Enter emergency contact address" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 outline-none resize-none bg-white" required></textarea>
+                    </div>
+                </div>
+
+                <div class="flex items-center pt-2">
+                    <input type="checkbox" id="consent" class="w-4 h-4 text-purple-700 border-gray-300 rounded focus:ring-purple-700 cursor-pointer" required>
+                    <label for="consent" class="ml-2 text-sm text-gray-800 cursor-pointer">I undertake and consent to attend this retreat. <span class="text-red-500">*</span></label>
+                </div>
 
                 <div class="pt-4">
                     <button type="submit" id="submitBtn" class="bg-[#4B128E] hover:bg-[#3a0d6e] text-white font-bold py-3 px-8 rounded-full shadow-md transition duration-200 text-sm tracking-wide w-full md:w-auto">
@@ -131,34 +124,45 @@
         <div id="successMessage" class="hidden bg-white w-full max-w-2xl rounded-xl shadow-lg p-10 text-center border-t-4 border-green-500 mt-10">
             <svg class="w-20 h-20 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             <h2 class="text-3xl font-bold text-gray-800 mb-4">Registration Successful!</h2>
-            <p class="text-gray-600 mb-6">Thank you for registering for the retreat. Your details have been securely saved.</p>
+            <p class="text-gray-600 mb-6">Thank you for registering. Your details have been securely saved.</p>
             <button onclick="window.location.reload()" class="bg-[#4B128E] hover:bg-[#3a0d6e] text-white font-bold py-2 px-6 rounded-full transition duration-200">Submit Another Form</button>
         </div>
-
     </div>
 
     <script>
+        // --- 1. INITIALIZE CUSTOM JQUERY UI CALENDAR ---
+        function initDatepicker(selector) {
+            $(selector).datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "1900:c", // Allows years from 1900 up to the current year
+                maxDate: 0,          // Prevents selecting future dates
+                dateFormat: "dd/mm/yy"
+            });
+        }
+
+        // Initialize the main DOB on page load
+        $(document).ready(function() {
+            initDatepicker("#dob");
+        });
+
+        // INSERT YOUR GOOGLE SCRIPT URL HERE
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwxdJQUxZTrN76MED7Zldyoqk2CfaED9LfWfQpE21jLLdXNc3xQKj8MZebNxcQ9MbhG/exec";
 
         // --- DYNAMIC PARTICIPANTS LOGIC ---
         const addParticipantsCheckbox = document.getElementById('addParticipants');
         const extraContainer = document.getElementById('extraParticipantsContainer');
 
-        // Toggle visibility when checkbox is clicked
         addParticipantsCheckbox.addEventListener('change', function() {
             if (this.checked) {
                 extraContainer.classList.remove('hidden');
-                // Automatically add the first empty block if the container is empty
-                if (extraContainer.children.length === 0) {
-                    addParticipantBlock();
-                }
+                if (extraContainer.children.length === 0) { addParticipantBlock(); }
             } else {
                 extraContainer.classList.add('hidden');
-                extraContainer.innerHTML = ''; // Clear out data if unchecked
+                extraContainer.innerHTML = ''; 
             }
         });
 
-        // Function to create and inject a new participant block
         function addParticipantBlock() {
             const block = document.createElement('div');
             block.className = "participant-block bg-gray-50 p-4 border border-gray-200 rounded-lg relative";
@@ -171,18 +175,18 @@
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-800 mb-1">DOB</label>
-                        <input type="date" class="extra-dob w-full border border-gray-300 rounded-md p-2.5 text-sm outline-none focus:border-purple-700" required>
+                        <input type="text" class="extra-dob custom-datepicker w-full border border-gray-300 rounded-md p-2.5 text-sm outline-none focus:border-purple-700 bg-white cursor-pointer" placeholder="dd/mm/yyyy" readonly required>
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
                     <div>
                         <label class="block text-sm font-semibold text-gray-800 mb-1">Aadhar Number</label>
-                        <input type="text" class="extra-aadhar w-full border border-gray-300 rounded-md p-2.5 text-sm outline-none focus:border-purple-700" required>
+                        <input type="text" maxlength="12" pattern="\\d{12}" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="extra-aadhar w-full border border-gray-300 rounded-md p-2.5 text-sm outline-none focus:border-purple-700" placeholder="12-digit number" required>
                     </div>
                     <div class="flex gap-2">
                         <div class="flex-grow">
                             <label class="block text-sm font-semibold text-gray-800 mb-1">Phone Number</label>
-                            <input type="tel" class="extra-phone w-full border border-gray-300 rounded-md p-2.5 text-sm outline-none focus:border-purple-700" placeholder="+91 " required>
+                            <input type="tel" maxlength="10" pattern="\\d{10}" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="extra-phone w-full border border-gray-300 rounded-md p-2.5 text-sm outline-none focus:border-purple-700" placeholder="10-digit number" required>
                         </div>
                         
                         <div class="flex gap-2 pb-0.5">
@@ -197,15 +201,11 @@
                 </div>
             `;
 
-            // Attach event listener to the NEW [+] button
             block.querySelector('.add-btn').addEventListener('click', addParticipantBlock);
-
-            // Attach event listener to the NEW [Trash] button
             block.querySelector('.delete-btn').addEventListener('click', function() {
                 if (extraContainer.children.length > 1) {
-                    block.remove(); // Delete this specific row
+                    block.remove(); 
                 } else {
-                    // If it's the last row, uncheck the box and hide everything
                     extraContainer.innerHTML = '';
                     addParticipantsCheckbox.checked = false;
                     extraContainer.classList.add('hidden');
@@ -213,6 +213,9 @@
             });
 
             extraContainer.appendChild(block);
+
+            // Initialize the jQuery calendar on this newly created field
+            initDatepicker(block.querySelector('.extra-dob'));
         }
 
         // --- FORM SUBMISSION LOGIC ---
@@ -228,25 +231,22 @@
             try {
                 const formData = new FormData();
                 
-                // 1. Gather Standard Fields
+                // Gather Standard Fields
                 formData.append("fullName", document.getElementById('fullName').value);
                 formData.append("dob", document.getElementById('dob').value);
                 formData.append("phone", "+91 " + document.getElementById('phone').value); 
                 formData.append("email", document.getElementById('email').value);
                 formData.append("aadhar", document.getElementById('aadhar').value);
                 formData.append("language", document.getElementById('language').value);
-                formData.append("retreat", document.getElementById('retreat').value);
                 formData.append("diseases", document.getElementById('diseases').value);
-                formData.append("startDate", document.getElementById('startDate').value);
-                formData.append("endDate", document.getElementById('endDate').value);
-                formData.append("venue", document.getElementById('venue').value);
                 formData.append("addParticipants", document.getElementById('addParticipants').checked ? "Yes" : "No");
                 formData.append("address", document.getElementById('address').value);
                 formData.append("emergencyName", document.getElementById('emergencyName').value);
+                formData.append("emergencyPhone", "+91 " + document.getElementById('emergencyPhone').value);
                 formData.append("emergencyAddress", document.getElementById('emergencyAddress').value);
                 formData.append("consent", document.getElementById('consent').checked ? "Yes" : "No");
 
-                // 2. Gather DYNAMIC Extra Participants Data
+                // Gather DYNAMIC Extra Participants Data
                 let extraParticipantsData = [];
                 if (document.getElementById('addParticipants').checked) {
                     const blocks = document.querySelectorAll('.participant-block');
@@ -255,20 +255,14 @@
                             name: block.querySelector('.extra-name').value,
                             dob: block.querySelector('.extra-dob').value,
                             aadhar: block.querySelector('.extra-aadhar').value,
-                            phone: block.querySelector('.extra-phone').value
+                            phone: "+91 " + block.querySelector('.extra-phone').value
                         });
                     });
                 }
                 
-                // Convert array to a JSON string so Google Sheets can receive it safely
                 formData.append("extraParticipantsList", JSON.stringify(extraParticipantsData));
 
-                // 3. Send to Google Sheets
-                const response = await fetch(GOOGLE_SCRIPT_URL, { 
-                    method: "POST", 
-                    body: formData 
-                });
-                
+                const response = await fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: formData });
                 const result = await response.json();
 
                 if (result.result === "success") {
