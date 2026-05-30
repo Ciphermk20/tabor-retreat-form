@@ -3,508 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guest Registration - Tabor Ashram</title>
-    
-    <!-- Tailwind CSS -->
+    <title>Tabor Ashram Registration Form</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Flatpickr (Custom Calendar Tool) CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css">
-
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap');
-        
-        .font-serif { font-family: 'Merriweather', serif; }
-        .font-sans { font-family: 'Open Sans', sans-serif; }
-
-        input[type="text"].flatpickr-input {
-            cursor: pointer;
-            background-color: #f9fafb; 
-        }
-    </style>
 </head>
-<body class="bg-[#F0F4F8] font-sans text-gray-900 p-4 md:p-8">
+<body class="bg-[#f3f4f6] font-sans text-gray-800 antialiased selection:bg-purple-200 selection:text-purple-900">
 
-    <div class="max-w-7xl mx-auto mt-2 mb-12">
+    <div class="min-h-screen flex flex-col items-center py-12 px-4">
         
-        <!-- Header Section -->
-        <div class="flex flex-col md:flex-row items-center md:items-start justify-center md:justify-start gap-6 mb-8 px-2">
-            <!-- The Logo: Now floats to the left on larger screens -->
-            <img src="logo.jpg" alt="Tabor Ashram Logo" class="w-28 h-28 md:w-36 md:h-36 object-contain rounded-full drop-shadow-md">
+        <div class="mb-8">
+            <img src="logo.jpg" alt="Tabor Ashram Logo" class="h-24 w-24 rounded-full shadow-md object-cover border-2 border-white">
+        </div>
+
+        <div id="formContainer" class="bg-white w-full max-w-5xl rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-8 md:p-10 border border-gray-100">
             
-            <!-- The Text: Aligned to the left next to the logo -->
-            <div class="text-center md:text-left flex-1">
-                <h2 class="text-base md:text-lg font-bold text-blue-600 uppercase tracking-wider mb-1">Tabor Divine Retreat Ashram Kalyan</h2>
-                <h1 class="font-serif text-3xl md:text-5xl font-black text-blue-900 mb-3 leading-tight">Guest Registration Form</h1>
+            <h2 class="text-3xl font-bold text-center text-black mb-10">Tabor Ashram Registration Form</h2>
+
+            <form id="taborForm" class="space-y-6">
                 
-                <div class="inline-flex flex-col sm:flex-row sm:gap-4 items-center bg-white border-2 border-blue-100 rounded-lg px-4 py-2 shadow-sm">
-                    <p class="text-lg font-bold text-blue-800">May 10 - May 15, 2026</p>
-                    <div class="hidden sm:block w-px h-5 bg-blue-200"></div>
-                    <p class="text-sm md:text-md font-semibold text-gray-700">Tabor Bhavan, Kalyan (West)</p>
-                </div>
-            </div>
-        </div>
-
-        <form id="accessibleForm" class="bg-white rounded-2xl shadow-xl border-t-8 border-blue-700 p-6 md:p-10">
-            
-            <!-- The Grid that splits the form into Left and Right columns on large screens -->
-            <div class="grid grid-cols-1 xl:grid-cols-12 gap-10">
-
-                <!-- LEFT COLUMN: Personal Details -->
-                <!-- LEFT COLUMN: Personal Details -->
-                <div class="xl:col-span-7">
-                    <h3 class="font-serif text-2xl font-bold text-blue-900 border-b-2 border-blue-100 pb-3 mb-6">Personal Details</h3>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Name -->
-                        <div>
-                            <label for="name" class="block font-bold text-lg mb-2 text-gray-800">Full Name *</label>
-                            <input type="text" id="name" placeholder="Enter full name"
-                                class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-gray-50 focus:bg-white focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition">
-                        </div>
-                        
-                        <!-- NEW: Accompanying Persons Field -->
-                        <div class="mb-6">
-    <label for="accompanyingCount" class="block font-bold text-lg mb-2 text-gray-800">Number of Accompanying Guests</label>
-    <input type="number" id="accompanyingCount" min="0" value="0" placeholder="0" 
-        class="w-full border-2 border-gray-300 rounded-lg p-3 text-lg bg-white focus:border-indigo-600 focus:ring-0 transition">
-    <p class="text-sm text-gray-500 mt-1">Leave as 0 if you are attending alone.</p>
-</div>  
-                        
-                        <!-- Sex -->
-                        <div class="relative">
-                            <label class="block font-bold text-lg mb-2 text-gray-800">Sex *</label>
-                            <button type="button" onclick="toggleDropdown(event, 'sexList')" class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-gray-50 focus:bg-white focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition flex justify-between items-center text-gray-500">
-                                <span id="sexSelected">Select</span>
-                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                            </button>
-                            <div id="sexList" class="dropdown-menu hidden absolute z-20 w-full mt-2 bg-white border-2 border-blue-200 rounded-lg shadow-xl overflow-hidden text-lg">
-                                <div onclick="selectOption('sex', 'Male')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 border-b border-gray-100 transition">Male</div>
-                                <div onclick="selectOption('sex', 'Female')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 border-b border-gray-100 transition">Female</div>
-                                <div onclick="selectOption('sex', 'Other')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 transition">Other</div>
-                            </div>
-                            <input type="hidden" id="sex">
-                        </div>
-
-                        <!-- Age (Now fully editable) -->
-                        <div>
-                            <label for="age" class="block font-bold text-lg mb-2 text-gray-800">Age *</label>
-                            <input type="number" id="age" placeholder="Age" min="1" max="120"
-                                oninput="this.value = Math.abs(this.value)"
-                                class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-gray-50 focus:bg-white focus:outline-none focus:border-blue-600 transition">
-                        </div>
-
-                        <!-- ID Type -->
-                        <div class="relative md:col-span-2">
-                            <label class="block font-bold text-lg mb-2 text-gray-800">Select ID Proof Type *</label>
-                            <button type="button" onclick="toggleDropdown(event, 'idTypeList')" class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-gray-50 focus:bg-white focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition flex justify-between items-center text-gray-500">
-                                <span id="idTypeSelected">Choose ID Type (Aadhar, PAN, etc.)</span>
-                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                            </button>
-                            <div id="idTypeList" class="dropdown-menu hidden absolute z-20 w-full mt-2 bg-white border-2 border-blue-200 rounded-lg shadow-xl overflow-hidden text-lg">
-                                <div onclick="selectOption('idType', 'Aadhar Card')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 border-b border-gray-100 transition">Aadhar Card</div>
-                                <div onclick="selectOption('idType', 'PAN Card')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 border-b border-gray-100 transition">PAN Card</div>
-                                <div onclick="selectOption('idType', 'Driving License')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 transition">Driving License</div>
-                            </div>
-                            <input type="hidden" id="idType">
-                        </div>
-
-                        <!-- ID Upload -->
-                        <div id="uploadContainer" class="hidden md:col-span-2">
-                            <label id="uploadLabel" class="block font-bold text-lg mb-2 text-gray-800">Upload ID Document *</label>
-                            <div class="flex items-center justify-center w-full">
-                                <label for="idMedia" class="flex flex-col items-center justify-center w-full h-40 border-4 border-blue-200 border-dashed rounded-xl cursor-pointer bg-blue-50 hover:bg-blue-100 hover:border-blue-400 transition-all">
-                                    <div class="flex flex-col items-center justify-center pt-5 pb-6 text-center px-4">
-                                        <svg class="w-10 h-10 mb-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-                                        <p class="mb-2 text-lg text-gray-700"><span class="font-bold text-blue-700">Click to upload</span> document</p>
-                                        <p id="fileNameDisplay" class="text-md font-bold text-green-700 mt-1 hidden bg-green-100 px-3 py-1 rounded-full"></p>
-                                    </div>
-                                    <input id="idMedia" type="file" class="hidden" accept="image/png, image/jpeg, image/jpg" onchange="displayFileName(this)" />
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- RIGHT COLUMN: Contact & Accommodation -->
-                <div class="xl:col-span-5 flex flex-col gap-10">
-                    
-                    <!-- Contact Information -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <h3 class="font-serif text-2xl font-bold text-blue-900 border-b-2 border-blue-100 pb-3 mb-6">Contact Information</h3>
-                        
-                        <div class="grid grid-cols-1 gap-6">
-                            <div>
-                                <label for="contact" class="block font-bold text-lg mb-2 text-gray-800">Contact Number *</label>
-                                <div class="flex items-stretch border-2 border-gray-300 rounded-lg bg-gray-50 focus-within:border-blue-600 focus-within:ring-2 focus-within:ring-blue-100 transition overflow-hidden">
-                                    <span class="flex items-center justify-center px-4 text-lg font-bold text-gray-600 bg-gray-200 border-r border-gray-300">+91</span>
-                                    <input type="tel" id="contact" placeholder="10-digit number" pattern="[0-9]{10}" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" class="w-full p-4 text-lg bg-transparent focus:outline-none">
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-6">
-                                <div>
-                                    <label for="emergencyContact" class="block font-bold text-lg mb-2 text-gray-800">Emergency Contact *</label>
-                                    <div class="flex items-stretch border-2 border-gray-300 rounded-lg bg-gray-50 focus-within:border-blue-600 focus-within:ring-2 focus-within:ring-blue-100 transition overflow-hidden">
-                                        <span class="flex items-center justify-center px-4 text-lg font-bold text-gray-600 bg-gray-200 border-r border-gray-300">+91</span>
-                                        <input type="tel" id="emergencyContact" placeholder="10-digit number" pattern="[0-9]{10}" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" class="w-full p-4 text-lg bg-transparent focus:outline-none">
-                                    </div>
-                                </div>
-                                <div>
-                                    <label for="relation" class="block font-bold text-lg mb-2 text-gray-800">Relation to Emergency *</label>
-                                    <input type="text" id="relation" placeholder="e.g., Brother, Friend" class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-gray-50 focus:bg-white focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition">
-                                </div>
-                            </div>
-                        </div>
+                        <label class="block text-sm font-semibold text-gray-800 mb-1">Full Name <span class="text-red-500">*</span></label>
+                        <input type="text" id="fullName" placeholder="John Smith" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 focus:border-purple-700 outline-none" required>
                     </div>
-
-                    <!-- Accommodation Details -->
                     <div>
-                        <h3 class="font-serif text-2xl font-bold text-blue-900 border-b-2 border-blue-100 pb-3 mb-6">Accommodation</h3>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="relative">
-                                <label class="block font-bold text-lg mb-2 text-gray-800">Type of Room *</label>
-                                <button type="button" onclick="toggleDropdown(event, 'roomList')" class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-gray-50 focus:bg-white focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition flex justify-between items-center text-gray-500">
-                                    <span id="roomTypeSelected">Select</span>
-                                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                                </button>
-                                <div id="roomList" class="dropdown-menu hidden absolute z-20 w-full mt-2 bg-white border-2 border-blue-200 rounded-lg shadow-xl overflow-hidden text-lg">
-                                    <div onclick="selectOption('roomType', 'Single')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 border-b border-gray-100 transition">Single</div>
-                                    <div onclick="selectOption('roomType', 'Double / Shared')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 border-b border-gray-100 transition">Double / Shared</div>
-                                    <div onclick="selectOption('roomType', 'Dormitory')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 transition">Dormitory</div>
-                                </div>
-                                <input type="hidden" id="roomType">
-                            </div>
+                        <label class="block text-sm font-semibold text-gray-800 mb-1">DOB <span class="text-red-500">*</span></label>
+                        <input type="date" id="dob" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 focus:border-purple-700 outline-none" required>
+                    </div>
+                </div>
 
-                            <div class="relative">
-                                <label class="block font-bold text-lg mb-2 text-gray-800">AC / Non-AC *</label>
-                                <button type="button" onclick="toggleDropdown(event, 'acList')" class="w-full border-2 border-gray-300 rounded-lg p-4 text-lg bg-gray-50 focus:bg-white focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition flex justify-between items-center text-gray-500">
-                                    <span id="acPreferenceSelected">Select</span>
-                                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                                </button>
-                                <div id="acList" class="dropdown-menu hidden absolute z-20 w-full mt-2 bg-white border-2 border-blue-200 rounded-lg shadow-xl overflow-hidden text-lg">
-                                    <div onclick="selectOption('acPreference', 'AC')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 border-b border-gray-100 transition">AC</div>
-                                    <div onclick="selectOption('acPreference', 'Non-AC')" class="p-4 hover:bg-blue-50 hover:text-blue-700 cursor-pointer text-gray-800 transition">Non-AC</div>
-                                </div>
-                                <input type="hidden" id="acPreference">
-                            </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-800 mb-1">Phone Number <span class="text-red-500">*</span></label>
+                        <div class="flex border border-gray-300 rounded-md overflow-hidden focus-within:ring-2 focus-within:ring-purple-700 focus-within:border-purple-700">
+                            <span class="bg-gray-50 text-gray-600 px-3 py-2.5 border-r border-gray-300 text-sm font-medium">+91</span>
+                            <input type="tel" id="phone" placeholder="9096471356" pattern="[0-9]{10}" class="w-full p-2.5 text-sm outline-none" required>
                         </div>
                     </div>
-
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-800 mb-1">Email <span class="text-red-500">*</span></label>
+                        <input type="email" id="email" placeholder="example@email.com" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 focus:border-purple-700 outline-none" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-800 mb-1">Aadhar Number <span class="text-red-500">*</span></label>
+                        <input type="text" id="aadhar" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 focus:border-purple-700 outline-none" required>
+                    </div>
                 </div>
-            </div>
 
-            <!-- PAYMENT SECTION (UPDATED WITH ₹2500 AMOUNT) -->
-               <div class="mb-8 p-6 bg-gray-50 border-2 border-gray-200 rounded-xl">
-    <h3 class="font-bold text-2xl text-gray-800 mb-4 border-b-2 border-gray-300 pb-2">Step 3: Registration Fee</h3>
-    
-    <div class="mb-6 p-5 bg-indigo-50 border-2 border-indigo-100 rounded-xl">
-        <h4 class="font-bold text-gray-800 mb-3 border-b border-indigo-200 pb-2">Fee Calculation Breakdown</h4>
-        <div class="flex justify-between text-gray-700 mb-2">
-            <span>Main Applicant:</span>
-            <span class="font-bold">₹2,500</span>
-        </div>
-        <div class="flex justify-between text-gray-700 mb-3">
-            <span>Accompanying Guests (<span id="guestCountDisplay">0</span>):</span>
-            <span class="font-bold" id="guestFeeDisplay">₹0</span>
-        </div>
-        <div class="flex justify-between text-indigo-900 text-xl font-black mt-3 pt-3 border-t-2 border-indigo-200">
-            <span>Total Amount to Pay:</span>
-            <span id="totalAmountDisplay">₹2,500</span>
-        </div>
-        <p class="text-sm font-medium text-indigo-700 mt-3">* Note: The registration fee is calculated at strictly ₹2,500 per person.</p>
-    </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-800 mb-1">Language <span class="text-red-500">*</span></label>
+                        <select id="language" class="w-full border border-gray-300 rounded-md p-2.5 text-sm bg-white focus:ring-2 focus:ring-purple-700 focus:border-purple-700 outline-none" required>
+                            <option value="">Select a Language</option>
+                            <option value="English">English</option>
+                            <option value="Malayalam">Malayalam</option>
+                            <option value="Hindi">Hindi</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-800 mb-1">Retreat <span class="text-red-500">*</span></label>
+                        <select id="retreat" class="w-full border border-gray-300 rounded-md p-2.5 text-sm bg-white focus:ring-2 focus:ring-purple-700 focus:border-purple-700 outline-none" required>
+                            <option value="">Select a Retreat</option>
+                            <option value="Inner Healing">Inner Healing Retreat</option>
+                            <option value="Growth">National Growth Retreat</option>
+                        </select>
+                    </div>
+                </div>
 
-    <div class="text-center">
-        <a id="dynamicUpiLink" href="upi://pay?pa=7021132044@ptsbi&pn=Tabor%20Ashram&am=2500&cu=INR" 
-           class="block w-full bg-green-600 text-white text-center font-bold py-4 rounded-lg shadow-lg hover:bg-green-700 transition mb-6">
-           Pay via UPI (GPay / PhonePe / Paytm)
-        </a>
-
-        <div class="mt-4 flex flex-col items-center mb-8">
-            <p class="text-sm text-gray-600 mb-2 font-bold">Or scan this QR from another phone:</p>
-            
-            <img src="qr.jpg" 
-                 alt="Mathew Francis QR Code" 
-                 class="border-4 border-white shadow-md rounded-lg w-56 h-auto">
-                 
-            <p class="text-xs text-gray-500 mt-2 font-bold text-red-500">Please enter the exact Total Amount shown above when scanning.</p>
-        </div>
-
-        <div class="text-left bg-white p-4 rounded-lg border-2 border-gray-200">
-            <label for="paymentScreenshot" class="block font-bold text-lg mb-2 text-gray-800">Upload Payment Screenshot *</label>
-            <input type="file" id="paymentScreenshot" accept="image/*" required
-                class="w-full border-2 border-gray-300 rounded-lg p-3 text-lg bg-gray-50 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 transition">
-            <p class="text-sm text-gray-500 mt-2">Take a screenshot of the successful payment screen and upload it here to verify your registration.</p>
-        </div>
-    </div>
-</div>
-
-                <!-- NEW: Dynamic Fee Calculation Display -->
-                        <div class="mb-6 p-5 bg-indigo-50 border-2 border-indigo-100 rounded-xl">
-                            <h3 class="font-bold text-gray-800 mb-3 border-b border-indigo-200 pb-2">Fee Calculation Breakdown</h3>
-                            <div class="flex justify-between text-gray-700 mb-2">
-                                <span>Main Applicant:</span>
-                                <span class="font-bold">₹2,500</span>
-                            </div>
-                            <div class="flex justify-between text-gray-700 mb-3">
-                                <span>Accompanying Guests (<span id="guestCountDisplay">0</span>):</span>
-                                <span class="font-bold" id="guestFeeDisplay">₹0</span>
-                            </div>
-                            <div class="flex justify-between text-indigo-900 text-xl font-black mt-3 pt-3 border-t-2 border-indigo-200">
-                                <span>Total Amount to Pay:</span>
-                                <span id="totalAmountDisplay">₹2,500</span>
-                            </div>
-                            <p class="text-sm font-medium text-indigo-700 mt-3">* Note: The registration fee is calculated at strictly ₹2,500 per person.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-800 mb-1">Any diseases? (if any please specify)</label>
+                        <textarea id="diseases" rows="2" placeholder="Please mention if any physical or mental conditions, medications, or allergies" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 focus:border-purple-700 outline-none resize-none"></textarea>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-800 mb-1">Retreat Start Date</label>
+                            <input type="date" id="startDate" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 outline-none">
                         </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-800 mb-1">Retreat End Date</label>
+                            <input type="date" id="endDate" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 outline-none">
+                        </div>
+                    </div>
+                </div>
 
+                <div>
+                    <label class="block text-sm font-semibold text-gray-800 mb-1">Retreat Venue</label>
+                    <input type="text" id="venue" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 outline-none">
+                </div>
 
+                <div class="flex items-center mt-2">
+                    <input type="checkbox" id="addParticipants" class="w-4 h-4 text-purple-700 border-gray-300 rounded focus:ring-purple-700 cursor-pointer">
+                    <label for="addParticipants" class="ml-2 text-sm text-gray-800 cursor-pointer">I wish to add more participants.</label>
+                </div>
 
-               
+                <div>
+                    <label class="block text-sm font-semibold text-gray-800 mb-1">Address <span class="text-red-500">*</span></label>
+                    <textarea id="address" rows="3" placeholder="123, Buffalo Street NY, USA" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 outline-none resize-none" required></textarea>
+                </div>
 
-            <!-- Action Button -->
-            <div class="mt-10 border-t-2 border-gray-100 pt-8 text-center">
-                <button type="submit" 
-                    class="bg-blue-700 hover:bg-blue-800 text-white text-xl font-bold py-5 px-16 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 w-full md:w-auto">
-                    Submit Registration Form
-                </button>
-            </div>
-        </form>
-         <!-- SUCCESS MESSAGE (HIDDEN BY DEFAULT) -->
-        <div id="successMessage" class="hidden text-center py-16 px-4 bg-white rounded-xl shadow-sm border-2 border-green-100 mt-8">
-            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-100 mb-6">
-                <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-            </div>
-            <h2 class="font-serif text-3xl font-bold text-gray-800 mb-4">Registration Successful!</h2>
-            <p class="text-gray-600 mb-8 text-lg">Thank you. The registration and payment have been securely submitted to Tabor Ashram.</p>
-            <button type="button" id="submitAnotherBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg shadow-md transition">
-                Submit Another Form
-            </button>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-800 mb-1">Emergency Contact Name <span class="text-red-500">*</span></label>
+                        <input type="text" id="emergencyName" placeholder="Enter emergency contact full name" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 outline-none" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-800 mb-1">Emergency Contact Address <span class="text-red-500">*</span></label>
+                        <textarea id="emergencyAddress" rows="2" placeholder="Enter emergency contact address" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 outline-none resize-none" required></textarea>
+                    </div>
+                </div>
+
+                <div class="flex items-center pt-2">
+                    <input type="checkbox" id="consent" class="w-4 h-4 text-purple-700 border-gray-300 rounded focus:ring-purple-700 cursor-pointer" required>
+                    <label for="consent" class="ml-2 text-sm text-gray-800 cursor-pointer">I undertake and consent to attend this retreat. <span class="text-red-500">*</span></label>
+                </div>
+
+                <div class="pt-4">
+                    <button type="submit" id="submitBtn" class="bg-[#4B128E] hover:bg-[#3a0d6e] text-white font-bold py-3 px-8 rounded-full shadow-md transition duration-200 text-sm tracking-wide w-full md:w-auto">
+                        REGISTER
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div id="successMessage" class="hidden bg-white w-full max-w-2xl rounded-xl shadow-lg p-10 text-center border-t-4 border-green-500 mt-10">
+            <svg class="w-20 h-20 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Registration Successful!</h2>
+            <p class="text-gray-600 mb-6">Thank you for registering for the retreat. Your details have been securely saved.</p>
+            <button onclick="window.location.reload()" class="bg-[#4B128E] hover:bg-[#3a0d6e] text-white font-bold py-2 px-6 rounded-full transition duration-200">Submit Another Form</button>
         </div>
 
     </div>
 
-    <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script>
+    <script>
+        // INSERT YOUR NEW GOOGLE SCRIPT URL HERE
+        const GOOGLE_SCRIPT_URL = "YOUR_NEW_APPS_SCRIPT_URL_HERE";
 
-    
+        document.getElementById('taborForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerText;
+            submitBtn.innerText = "Processing...";
+            submitBtn.disabled = true;
+            submitBtn.classList.add("opacity-70", "cursor-not-allowed");
 
-   // ==========================================
-    // DYNAMIC PRICING, UPI, & QR CODE LOGIC
-    // ==========================================
-  // ==========================================
-    // DYNAMIC PRICING & UPI LOGIC
-    // ==========================================
-    const guestInput = document.getElementById('accompanyingCount');
-    const guestCountDisplay = document.getElementById('guestCountDisplay');
-    const guestFeeDisplay = document.getElementById('guestFeeDisplay');
-    const totalAmountDisplay = document.getElementById('totalAmountDisplay');
-    const upiButton = document.getElementById('dynamicUpiLink');
-    // Note: We completely removed the qrImage variable here!
-
-    function updatePricingAndLinks() {
-        let extraGuests = parseInt(guestInput.value) || 0;
-        
-        if (extraGuests < 0) {
-            extraGuests = 0;
-            guestInput.value = 0;
-        }
-
-        let totalPeople = 1 + extraGuests;          
-        let totalFee = totalPeople * 2500;          
-        let extraGuestFee = extraGuests * 2500;     
-
-        if (guestCountDisplay) guestCountDisplay.innerText = extraGuests;
-        if (guestFeeDisplay) guestFeeDisplay.innerText = '₹' + extraGuestFee.toLocaleString('en-IN');
-        if (totalAmountDisplay) totalAmountDisplay.innerText = '₹' + totalFee.toLocaleString('en-IN');
-
-        // --- UPDATED WITH MATHEW'S EXACT DETAILS ---
-        const upiID = "mathewfrancis184@okhdfcbank";
-        const payeeName = "Mathew Francis";
-        const note = "Retreat Fee for " + totalPeople + " Person(s)";
-        
-        const upiString = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(payeeName)}&am=${totalFee}&cu=INR&tn=${encodeURIComponent(note)}`;
-        
-        if (upiButton) {
-            upiButton.setAttribute('href', upiString);
-        }
-        // Note: The old dynamic QR code generation block is completely deleted from here!
-    }
-
-    if (guestInput) {
-        guestInput.addEventListener('input', updatePricingAndLinks);
-        updatePricingAndLinks();
-    }
-    // ==========================================
-    // ==========================================
-
-
-    // --- UI HELPER FUNCTIONS (Do not delete these!) ---
-    function toggleDropdown(event, listId) {
-        event.stopPropagation(); 
-        document.querySelectorAll('.dropdown-menu').forEach(menu => {
-            if(menu.id !== listId) menu.classList.add('hidden');
-        });
-        document.getElementById(listId).classList.toggle('hidden');
-    }
-
-    function selectOption(fieldId, value) {
-        let selectedSpan = document.getElementById(fieldId + 'Selected');
-        selectedSpan.innerText = value;
-        selectedSpan.classList.remove('text-gray-500'); 
-        selectedSpan.classList.add('text-gray-900');    
-        document.getElementById(fieldId).value = value;
-        
-        document.getElementById(fieldId + 'List').classList.add('hidden');
-
-        if(fieldId === 'idType') {
-            document.getElementById('uploadContainer').classList.remove('hidden');
-            document.getElementById('uploadLabel').innerText = "Upload an image of your " + value + " *";
-        }
-    }
-
-    function displayFileName(input) {
-        const display = document.getElementById('fileNameDisplay');
-        if(input.files && input.files.length > 0) {
-            display.innerText = "Selected: " + input.files[0].name;
-            display.classList.remove('hidden'); 
-        }
-    }
-
-    window.onclick = function() {
-        document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.add('hidden'));
-    }
-
-
-    // --- MAIN FORM SUBMISSION ---
-    document.getElementById('accessibleForm').addEventListener('submit', async function(event) {
-        event.preventDefault();
-
-        const submitBtn = event.target.querySelector('button[type="submit"]');
-        const originalBtnText = submitBtn.innerText;
-        submitBtn.innerText = "Please wait... Processing Payment & Registration";
-        submitBtn.disabled = true;
-        
-        // --- CONFIGURATION ---
-        const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/ddqmjlznq/image/upload";
-        const UPLOAD_PRESET = "retreat_uploads";
-        const WEB3FORMS_KEY = "b9ca0fc7-fd99-417d-9467-6ba261b27802";
-        
-        // PASTE YOUR NEW GOOGLE SCRIPT URL HERE:
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwxdJQUxZTrN76MED7Zldyoqk2CfaED9LfWfQpE21jLLdXNc3xQKj8MZebNxcQ9MbhG/exec"; 
-
-        // Gather Values
-       // 2. Gather Values
-        const name = document.getElementById('name').value.trim();
-        const guests = parseInt(document.getElementById('accompanyingCount').value) || 0;
-        const totalPaid = 2500 + (guests * 2500);
-        const familyGroup = guests + " Guests (Total: ₹" + totalPaid + ")";
-        const sex = document.getElementById('sex').value;
-        const age = document.getElementById('age').value;
-        const idType = document.getElementById('idType').value;
-        const contact = document.getElementById('contact').value;
-        const idMedia = document.getElementById('idMedia').files[0];
-        
-        // NEW: Grab the Payment Screenshot instead of UTR
-        const paymentScreenshot = document.getElementById('paymentScreenshot').files[0];
-
-        // Validation 
-        if (!name || !sex || !age || !idType || !idMedia || !paymentScreenshot || contact.length !== 10) {
-            submitBtn.innerText = originalBtnText;
-            submitBtn.disabled = false;
-            return alert("Please fill all required fields and upload both images.");
-        }
-
-        try {
-            // --- NEW MULTIPLE UPLOAD LOGIC ---
-            // Helper function to upload any file to Cloudinary
-            // Helper function to upload any file to Cloudinary
-            const uploadToCloudinary = async (file) => {
+            try {
                 const formData = new FormData();
-                formData.append("file", file);
+                formData.append("fullName", document.getElementById('fullName').value);
+                formData.append("dob", document.getElementById('dob').value);
+                // Prepend the +91 so it looks clean in the database
+                formData.append("phone", "+91 " + document.getElementById('phone').value); 
+                formData.append("email", document.getElementById('email').value);
+                formData.append("aadhar", document.getElementById('aadhar').value);
+                formData.append("language", document.getElementById('language').value);
+                formData.append("retreat", document.getElementById('retreat').value);
+                formData.append("diseases", document.getElementById('diseases').value);
+                formData.append("startDate", document.getElementById('startDate').value);
+                formData.append("endDate", document.getElementById('endDate').value);
+                formData.append("venue", document.getElementById('venue').value);
                 
-                // 1. PUT YOUR REAL CLOUDINARY PRESET NAME HERE (Inside quotes)
-                formData.append("upload_preset", "retreat_uploads"); 
-                
-                // 2. PUT YOUR REAL CLOUDINARY API URL HERE (Inside quotes)
-                const res = await fetch("https://api.cloudinary.com/v1_1/ddqmjlznq/image/upload", { 
+                // Convert checkboxes to Yes/No
+                formData.append("addParticipants", document.getElementById('addParticipants').checked ? "Yes" : "No");
+                formData.append("address", document.getElementById('address').value);
+                formData.append("emergencyName", document.getElementById('emergencyName').value);
+                formData.append("emergencyAddress", document.getElementById('emergencyAddress').value);
+                formData.append("consent", document.getElementById('consent').checked ? "Yes" : "No");
+
+                // Send to Google Sheets
+                const response = await fetch(GOOGLE_SCRIPT_URL, { 
                     method: "POST", 
                     body: formData 
                 });
                 
-                const json = await res.json();
-                return json.secure_url;
-            };
+                const result = await response.json();
 
-            // Upload BOTH images at the exact same time (Much faster!)
-            const [idLink, paymentLink] = await Promise.all([
-                uploadToCloudinary(idMedia),
-                uploadToCloudinary(paymentScreenshot)
-            ]);
-            // ---------------------------------
+                if (result.result === "success") {
+                    // Hide the form, show the success message
+                    document.getElementById('formContainer').classList.add('hidden');
+                    document.getElementById('successMessage').classList.remove('hidden');
+                } else {
+                    throw new Error(result.error);
+                }
 
-            // 3. Prepare Data for Google Sheets
-            const sheetData = new FormData();
-            sheetData.append("name", name);
-            sheetData.append("familyGroup", familyGroup);
-            sheetData.append("sex", sex);
-            sheetData.append("age", age);
-            sheetData.append("idType", idType);
-            sheetData.append("contact", contact);
-            sheetData.append("transactionId", paymentLink); // Sending the Image Link instead of UTR
-            sheetData.append("idLink", idLink);
-
-            const sheetPromise = fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: sheetData });
-            
-            // 4. Prepare Data for Email
-            const emailData = new FormData();
-            emailData.append("access_key", WEB3FORMS_KEY);
-            emailData.append("subject", "New Registration: " + name);
-            emailData.append("Full Name", name);
-            emailData.append("Family Group", familyGroup);
-            emailData.append("Contact", contact);
-            emailData.append("Payment Proof", paymentLink); // NEW
-            emailData.append("ID Image", idLink);
-
-            const emailPromise = fetch("https://api.web3forms.com/submit", { method: "POST", body: emailData });
-
-           // Wait for both Google Sheets and Email to finish
-            await Promise.all([sheetPromise, emailPromise]);
-
-            // --- NEW SUCCESS BEHAVIOR ---
-            // 1. Hide the form
-            document.getElementById('accessibleForm').classList.add('hidden');
-            // 2. Show the success message
-            document.getElementById('successMessage').classList.remove('hidden');
-            // 3. Scroll to the top of the success message smoothly
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-
-        } catch (err) {
-            console.error(err);
-            alert("An error occurred. Please check your internet connection and try again.");
-        } finally {
-            submitBtn.innerText = originalBtnText;
-            submitBtn.disabled = false;
-        }
-    }); // <-- THIS CLOSES THE MAIN FORM SUBMIT LISTENER
-
-    // --- RESET FORM BEHAVIOR ---
-    document.getElementById('submitAnotherBtn').addEventListener('click', function() {
-        // 1. Clear all the typed data from the form
-        document.getElementById('accessibleForm').reset();
-        
-        // 2. Hide the success message
-        document.getElementById('successMessage').classList.add('hidden');
-        
-        // 3. Show the empty form again
-        document.getElementById('accessibleForm').classList.remove('hidden');
-        
-        // 4. Scroll back to the top of the form
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-</script>
+            } catch (error) {
+                alert("An error occurred: " + error.message);
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+                submitBtn.classList.remove("opacity-70", "cursor-not-allowed");
+            }
+        });
+    </script>
 </body>
 </html>
