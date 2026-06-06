@@ -4,22 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tabor Ashram Registration Form</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Vercel Web Analytics -->
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <!-- NEW: Signature Pad Library (Handles Mouse and Touch flawlessly) -->
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
 </head>
 <body class="bg-[#f3f4f6] font-sans text-gray-800 antialiased selection:bg-purple-200 selection:text-purple-900">
 
     <div class="min-h-screen flex flex-col items-center py-12 px-4">
         
+        <!-- Top Logo -->
         <div class="mb-8">
             <img src="logo.jpg" alt="Tabor Ashram Logo" class="h-24 w-24 rounded-full shadow-md object-cover border-2 border-white">
         </div>
 
+        <!-- Form Card -->
         <div id="formContainer" class="bg-white w-full max-w-5xl rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-8 md:p-10 border border-gray-100">
             
             <h2 class="text-3xl font-bold text-center text-black mb-10">Tabor Ashram Registration Form</h2>
 
             <form id="taborForm" class="space-y-6">
                 
+                <!-- Row 1: Name, Age, and Gender -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-semibold text-gray-800 mb-1">Full Name <span class="text-red-500">*</span></label>
@@ -41,6 +55,7 @@
                     </div>
                 </div>
 
+                <!-- Row 2 -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div>
                         <label class="block text-sm font-semibold text-gray-800 mb-1">Phone Number <span class="text-red-500">*</span></label>
@@ -59,6 +74,7 @@
                     </div>
                 </div>
 
+                <!-- Row 3 -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-semibold text-gray-800 mb-1">Language <span class="text-red-500">*</span></label>
@@ -75,19 +91,24 @@
                     </div>
                 </div>
 
+                <!-- Row 4: Checkbox -->
                 <div class="flex items-center mt-2 border-t border-gray-100 pt-4">
                     <input type="checkbox" id="addParticipants" class="w-4 h-4 text-purple-700 border-gray-300 rounded focus:ring-purple-700 cursor-pointer">
                     <label for="addParticipants" class="ml-2 text-sm font-semibold text-gray-800 cursor-pointer">I wish to add more participants.</label>
                 </div>
 
+                <!-- DYNAMIC EXTRA PARTICIPANTS CONTAINER -->
                 <div id="extraParticipantsContainer" class="hidden space-y-4 border-l-4 border-purple-600 pl-4 mt-4">
-                    </div>
+                    <!-- JavaScript will inject the participant rows here -->
+                </div>
 
+                <!-- Row 5: Address -->
                 <div class="pt-2">
                     <label class="block text-sm font-semibold text-gray-800 mb-1">Address <span class="text-red-500">*</span></label>
                     <textarea id="address" rows="2" placeholder="Full residential address" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 outline-none resize-none" required></textarea>
                 </div>
 
+                <!-- Row 6: Emergency Contact -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-red-50 p-4 rounded-lg border border-red-100">
                     <div>
                         <label class="block text-sm font-semibold text-gray-800 mb-1">Emergency Contact Name <span class="text-red-500">*</span></label>
@@ -106,6 +127,22 @@
                     </div>
                 </div>
 
+                <!-- Row 7: Digital Signature Pad (NEW) -->
+                <div class="pt-4 border-t border-gray-100 mt-4">
+                    <label class="block text-sm font-semibold text-gray-800 mb-2">Please Provide Your Digital Signature <span class="text-red-500">*</span></label>
+                    <div class="border-2 border-dashed border-gray-300 rounded-xl bg-white relative overflow-hidden group">
+                        <!-- Canvas handles the drawing -->
+                        <canvas id="signatureCanvas" class="w-full h-40 touch-none cursor-crosshair"></canvas>
+                        <!-- Clear Button -->
+                        <button type="button" id="clearSignature" class="absolute top-2 right-2 bg-gray-100 hover:bg-red-50 hover:text-red-600 text-gray-600 text-xs font-bold py-1.5 px-3 rounded shadow-sm border border-gray-200 transition">Clear Signature</button>
+                        <!-- Helper Text -->
+                        <div class="absolute bottom-2 left-0 right-0 text-center pointer-events-none opacity-50 group-hover:opacity-10 transition">
+                            <span class="text-xs text-gray-400 font-medium tracking-widest uppercase">Sign Here</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 8: Personalized Consent -->
                 <div class="flex items-start pt-2 bg-indigo-50 p-4 rounded-lg border border-indigo-100 mt-4">
                     <input type="checkbox" id="consent" class="w-5 h-5 text-purple-700 border-gray-300 rounded focus:ring-purple-700 cursor-pointer mt-0.5" required>
                     <label for="consent" class="ml-3 text-sm text-gray-800 leading-relaxed cursor-pointer">
@@ -113,6 +150,7 @@
                     </label>
                 </div>
 
+                <!-- Submit Button -->
                 <div class="pt-4">
                     <button type="submit" id="submitBtn" class="bg-[#4B128E] hover:bg-[#3a0d6e] text-white font-bold py-3 px-8 rounded-full shadow-md transition duration-200 text-sm tracking-wide w-full md:w-auto">
                         REGISTER
@@ -121,26 +159,49 @@
             </form>
         </div>
 
+        <!-- Success Message -->
         <div id="successMessage" class="hidden bg-white w-full max-w-2xl rounded-xl shadow-lg p-10 text-center border-t-4 border-green-500 mt-10">
             <svg class="w-20 h-20 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             <h2 class="text-3xl font-bold text-gray-800 mb-4">Registration Successful!</h2>
-            <p class="text-gray-600 mb-6">Thank you for registering. Your details have been securely saved.</p>
+            <p class="text-gray-600 mb-6">Thank you for registering. Your details and signature have been securely saved.</p>
             <button onclick="window.location.reload()" class="bg-[#4B128E] hover:bg-[#3a0d6e] text-white font-bold py-2 px-6 rounded-full transition duration-200">Submit Another Form</button>
         </div>
     </div>
 
+    <!-- JAVASCRIPT LOGIC -->
     <script>
         // INSERT YOUR GOOGLE SCRIPT URL HERE
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwxdJQUxZTrN76MED7Zldyoqk2CfaED9LfWfQpE21jLLdXNc3xQKj8MZebNxcQ9MbhG/exec";
 
-        // --- NEW REAL-TIME NAME EXTRACTOR ---
+        // --- SIGNATURE PAD LOGIC ---
+        const canvas = document.getElementById('signatureCanvas');
+        const signaturePad = new SignaturePad(canvas, {
+            backgroundColor: 'rgb(255, 255, 255)', // Required for clean Base64 exports
+            penColor: 'rgb(0, 0, 0)'
+        });
+
+        // Function to perfectly resize the canvas for high-resolution screens (phones/retina)
+        function resizeCanvas() {
+            const ratio = Math.max(window.devicePixelRatio || 1, 1);
+            canvas.width = canvas.offsetWidth * ratio;
+            canvas.height = canvas.offsetHeight * ratio;
+            canvas.getContext("2d").scale(ratio, ratio);
+            signaturePad.clear(); // Clear so it doesn't distort on rotate/resize
+        }
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+
+        // Clear button functionality
+        document.getElementById('clearSignature').addEventListener('click', function () {
+            signaturePad.clear();
+        });
+
+        // --- REAL-TIME NAME EXTRACTOR ---
         const fullNameInput = document.getElementById('fullName');
         const displayFirstName = document.getElementById('displayFirstName');
 
         fullNameInput.addEventListener('input', function() {
-            // Get the first word typed (the first name)
             const firstName = this.value.trim().split(' ')[0];
-            // If they typed a name, show it. Otherwise show "(Name)"
             if (firstName) {
                 displayFirstName.textContent = firstName;
             } else {
@@ -230,6 +291,13 @@
             
             const submitBtn = document.getElementById('submitBtn');
             const originalText = submitBtn.innerText;
+            
+            // Validate that the signature pad is NOT empty before submitting
+            if (signaturePad.isEmpty()) {
+                alert("Please provide your digital signature before submitting.");
+                return; // Stops the submission dead in its tracks
+            }
+
             submitBtn.innerText = "Processing...";
             submitBtn.disabled = true;
             submitBtn.classList.add("opacity-70", "cursor-not-allowed");
@@ -251,6 +319,9 @@
                 formData.append("emergencyPhone", "+91 " + document.getElementById('emergencyPhone').value);
                 formData.append("emergencyAddress", document.getElementById('emergencyAddress').value);
                 formData.append("consent", document.getElementById('consent').checked ? "Yes" : "No");
+                
+                // NEW: Grab the signature image as a Base64 string and append it
+                formData.append("signature", signaturePad.toDataURL("image/png"));
 
                 // Gather DYNAMIC Extra Participants Data
                 let extraParticipantsData = [];
