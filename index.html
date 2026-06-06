@@ -5,19 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tabor Ashram Registration Form</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-    
-    <style>
-        /* Small tweak to make the jQuery calendar sit nicely on top of Tailwind */
-        .ui-datepicker { font-family: inherit; font-size: 14px; padding: 0.5em; }
-        .ui-datepicker select.ui-datepicker-month, .ui-datepicker select.ui-datepicker-year {
-            padding: 2px; border-radius: 4px; border: 1px solid #ccc;
-        }
-    </style>
-</head>
+    </head>
 <body class="bg-[#f3f4f6] font-sans text-gray-800 antialiased selection:bg-purple-200 selection:text-purple-900">
 
     <div class="min-h-screen flex flex-col items-center py-12 px-4">
@@ -35,36 +23,46 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-semibold text-gray-800 mb-1">Full Name <span class="text-red-500">*</span></label>
-                        <input type="text" id="fullName" placeholder="John Smith" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 focus:border-purple-700 outline-none" required>
+                        <input type="text" id="fullName" placeholder="John Smith" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 outline-none" required>
                     </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-800 mb-1">DOB <span class="text-red-500">*</span></label>
-                        <input type="text" id="dob" class="custom-datepicker w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 focus:border-purple-700 outline-none bg-white cursor-pointer" placeholder="dd/mm/yyyy" readonly required>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-800 mb-1">Age <span class="text-red-500">*</span></label>
+                            <input type="text" id="age" maxlength="3" pattern="\d+" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="e.g. 25" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 outline-none bg-white" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-800 mb-1">Gender <span class="text-red-500">*</span></label>
+                            <select id="gender" class="w-full border border-gray-300 rounded-md p-2.5 text-sm bg-white focus:ring-2 focus:ring-purple-700 outline-none" required>
+                                <option value="">Select</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div>
                         <label class="block text-sm font-semibold text-gray-800 mb-1">Phone Number <span class="text-red-500">*</span></label>
-                        <div class="flex border border-gray-300 rounded-md overflow-hidden bg-white focus-within:ring-2 focus-within:ring-purple-700 focus-within:border-purple-700">
+                        <div class="flex border border-gray-300 rounded-md overflow-hidden bg-white focus-within:ring-2 focus-within:ring-purple-700">
                             <span class="bg-gray-50 text-gray-600 px-3 py-2.5 border-r border-gray-300 text-sm font-medium">+91</span>
                             <input type="tel" id="phone" maxlength="10" pattern="\d{10}" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="10-digit number" class="w-full p-2.5 text-sm outline-none" required>
                         </div>
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-800 mb-1">Email <span class="text-red-500">*</span></label>
-                        <input type="email" id="email" placeholder="example@email.com" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 focus:border-purple-700 outline-none" required>
+                        <input type="email" id="email" placeholder="example@email.com" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 outline-none" required>
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-800 mb-1">Aadhar Number <span class="text-red-500">*</span></label>
-                        <input type="text" id="aadhar" maxlength="12" pattern="\d{12}" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="12-digit number" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 focus:border-purple-700 outline-none" required>
+                        <input type="text" id="aadhar" maxlength="12" pattern="\d{12}" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="12-digit number" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 outline-none" required>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-semibold text-gray-800 mb-1">Language <span class="text-red-500">*</span></label>
-                        <select id="language" class="w-full border border-gray-300 rounded-md p-2.5 text-sm bg-white focus:ring-2 focus:ring-purple-700 focus:border-purple-700 outline-none" required>
+                        <select id="language" class="w-full border border-gray-300 rounded-md p-2.5 text-sm bg-white focus:ring-2 focus:ring-purple-700 outline-none" required>
                             <option value="">Select a Language</option>
                             <option value="English">English</option>
                             <option value="Malayalam">Malayalam</option>
@@ -73,7 +71,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-800 mb-1">Any diseases? (if any please specify)</label>
-                        <textarea id="diseases" rows="1" placeholder="Physical/mental conditions, medications, allergies" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 focus:border-purple-700 outline-none resize-none"></textarea>
+                        <textarea id="diseases" rows="1" placeholder="Physical/mental conditions, medications, allergies" class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-purple-700 outline-none resize-none"></textarea>
                     </div>
                 </div>
 
@@ -130,26 +128,9 @@
     </div>
 
     <script>
-        // --- 1. INITIALIZE CUSTOM JQUERY UI CALENDAR ---
-        function initDatepicker(selector) {
-            $(selector).datepicker({
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "1900:c", // Allows years from 1900 up to the current year
-                maxDate: 0,          // Prevents selecting future dates
-                dateFormat: "dd/mm/yy"
-            });
-        }
-
-        // Initialize the main DOB on page load
-        $(document).ready(function() {
-            initDatepicker("#dob");
-        });
-
         // INSERT YOUR GOOGLE SCRIPT URL HERE
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwxdJQUxZTrN76MED7Zldyoqk2CfaED9LfWfQpE21jLLdXNc3xQKj8MZebNxcQ9MbhG/exec";
 
-        // --- DYNAMIC PARTICIPANTS LOGIC ---
         const addParticipantsCheckbox = document.getElementById('addParticipants');
         const extraContainer = document.getElementById('extraParticipantsContainer');
 
@@ -171,22 +152,32 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>
                         <label class="block text-sm font-semibold text-gray-800 mb-1">Full Name</label>
-                        <input type="text" class="extra-name w-full border border-gray-300 rounded-md p-2.5 text-sm outline-none focus:border-purple-700" required>
+                        <input type="text" class="extra-name w-full border border-gray-300 rounded-md p-2.5 text-sm outline-none focus:ring-2 focus:ring-purple-700" required>
                     </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-800 mb-1">DOB</label>
-                        <input type="text" class="extra-dob custom-datepicker w-full border border-gray-300 rounded-md p-2.5 text-sm outline-none focus:border-purple-700 bg-white cursor-pointer" placeholder="dd/mm/yyyy" readonly required>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-800 mb-1">Age</label>
+                            <input type="text" maxlength="3" pattern="\\d+" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="extra-age w-full border border-gray-300 rounded-md p-2.5 text-sm outline-none focus:ring-2 focus:ring-purple-700 bg-white" placeholder="e.g. 25" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-800 mb-1">Gender</label>
+                            <select class="extra-gender w-full border border-gray-300 rounded-md p-2.5 text-sm bg-white outline-none focus:ring-2 focus:ring-purple-700" required>
+                                <option value="">Select</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
                     <div>
                         <label class="block text-sm font-semibold text-gray-800 mb-1">Aadhar Number</label>
-                        <input type="text" maxlength="12" pattern="\\d{12}" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="extra-aadhar w-full border border-gray-300 rounded-md p-2.5 text-sm outline-none focus:border-purple-700" placeholder="12-digit number" required>
+                        <input type="text" maxlength="12" pattern="\\d{12}" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="extra-aadhar w-full border border-gray-300 rounded-md p-2.5 text-sm outline-none focus:ring-2 focus:ring-purple-700" placeholder="12-digit number" required>
                     </div>
                     <div class="flex gap-2">
                         <div class="flex-grow">
                             <label class="block text-sm font-semibold text-gray-800 mb-1">Phone Number</label>
-                            <input type="tel" maxlength="10" pattern="\\d{10}" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="extra-phone w-full border border-gray-300 rounded-md p-2.5 text-sm outline-none focus:border-purple-700" placeholder="10-digit number" required>
+                            <input type="tel" maxlength="10" pattern="\\d{10}" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="extra-phone w-full border border-gray-300 rounded-md p-2.5 text-sm outline-none focus:ring-2 focus:ring-purple-700" placeholder="10-digit number" required>
                         </div>
                         
                         <div class="flex gap-2 pb-0.5">
@@ -213,9 +204,6 @@
             });
 
             extraContainer.appendChild(block);
-
-            // Initialize the jQuery calendar on this newly created field
-            initDatepicker(block.querySelector('.extra-dob'));
         }
 
         // --- FORM SUBMISSION LOGIC ---
@@ -233,13 +221,13 @@
                 
                 // Gather Standard Fields
                 formData.append("fullName", document.getElementById('fullName').value);
-                formData.append("dob", document.getElementById('dob').value);
+                formData.append("age", document.getElementById('age').value);
+                formData.append("gender", document.getElementById('gender').value);
                 formData.append("phone", "+91 " + document.getElementById('phone').value); 
                 formData.append("email", document.getElementById('email').value);
                 formData.append("aadhar", document.getElementById('aadhar').value);
                 formData.append("language", document.getElementById('language').value);
                 formData.append("diseases", document.getElementById('diseases').value);
-                formData.append("addParticipants", document.getElementById('addParticipants').checked ? "Yes" : "No");
                 formData.append("address", document.getElementById('address').value);
                 formData.append("emergencyName", document.getElementById('emergencyName').value);
                 formData.append("emergencyPhone", "+91 " + document.getElementById('emergencyPhone').value);
@@ -253,7 +241,8 @@
                     blocks.forEach(block => {
                         extraParticipantsData.push({
                             name: block.querySelector('.extra-name').value,
-                            dob: block.querySelector('.extra-dob').value,
+                            age: block.querySelector('.extra-age').value,
+                            gender: block.querySelector('.extra-gender').value,
                             aadhar: block.querySelector('.extra-aadhar').value,
                             phone: "+91 " + block.querySelector('.extra-phone').value
                         });
