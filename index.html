@@ -181,12 +181,23 @@
         });
 
         // Function to perfectly resize the canvas for high-resolution screens (phones/retina)
+        // Function to perfectly resize the canvas for high-resolution screens (phones/retina)
         function resizeCanvas() {
             const ratio = Math.max(window.devicePixelRatio || 1, 1);
+            
+            // 1. NEW: Save the signature to memory before the resize happens
+            const data = signaturePad.toData(); 
+            
             canvas.width = canvas.offsetWidth * ratio;
             canvas.height = canvas.offsetHeight * ratio;
             canvas.getContext("2d").scale(ratio, ratio);
-            signaturePad.clear(); // Clear so it doesn't distort on rotate/resize
+            
+            signaturePad.clear(); 
+            
+            // 2. NEW: Instantly paste the signature back onto the canvas!
+            if (data) {
+                signaturePad.fromData(data);
+            }
         }
         window.addEventListener("resize", resizeCanvas);
         resizeCanvas();
