@@ -348,7 +348,7 @@
                 };
 
                 // Send to the new Vercel API endpoint!
-                const response = await fetch('/api/register.js', { 
+                const response = await fetch('/api/register', { 
                     method: "POST", 
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(requestData) 
