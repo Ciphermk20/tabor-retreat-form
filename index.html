@@ -296,17 +296,16 @@
             extraContainer.appendChild(block);
         }
 
-        // --- FORM SUBMISSION LOGIC ---
+       // --- FORM SUBMISSION LOGIC ---
         document.getElementById('taborForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const submitBtn = document.getElementById('submitBtn');
             const originalText = submitBtn.innerText;
             
-            // Validate that the signature pad is NOT empty before submitting
             if (signaturePad.isEmpty()) {
                 alert("Please provide your digital signature before submitting.");
-                return; // Stops the submission dead in its tracks
+                return; 
             }
 
             submitBtn.innerText = "Processing...";
@@ -314,26 +313,6 @@
             submitBtn.classList.add("opacity-70", "cursor-not-allowed");
 
             try {
-                const formData = new FormData();
-                
-                // Gather Standard Fields
-                formData.append("fullName", document.getElementById('fullName').value);
-                formData.append("age", document.getElementById('age').value);
-                formData.append("gender", document.getElementById('gender').value);
-                formData.append("phone", "+91 " + document.getElementById('phone').value); 
-                formData.append("email", document.getElementById('email').value);
-                formData.append("aadhar", document.getElementById('aadhar').value);
-                formData.append("language", document.getElementById('language').value);
-                formData.append("diseases", document.getElementById('diseases').value);
-                formData.append("address", document.getElementById('address').value);
-                formData.append("emergencyName", document.getElementById('emergencyName').value);
-                formData.append("emergencyPhone", "+91 " + document.getElementById('emergencyPhone').value);
-                formData.append("emergencyAddress", document.getElementById('emergencyAddress').value);
-                formData.append("consent", document.getElementById('consent').checked ? "Yes" : "No");
-                
-                // NEW: Grab the signature image as a Base64 string and append it
-                formData.append("signature", signaturePad.toDataURL("image/png"));
-
                 // Gather DYNAMIC Extra Participants Data
                 let extraParticipantsData = [];
                 if (document.getElementById('addParticipants').checked) {
@@ -348,10 +327,33 @@
                         });
                     });
                 }
-                
-                formData.append("extraParticipantsList", JSON.stringify(extraParticipantsData));
 
-                const response = await fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: formData });
+                // Package all data perfectly for MongoDB
+                const requestData = {
+                    fullName: document.getElementById('fullName').value,
+                    age: document.getElementById('age').value,
+                    gender: document.getElementById('gender').value,
+                    phone: "+91 " + document.getElementById('phone').value,
+                    email: document.getElementById('email').value,
+                    aadhar: document.getElementById('aadhar').value,
+                    language: document.getElementById('language').value,
+                    diseases: document.getElementById('diseases').value,
+                    address: document.getElementById('address').value,
+                    emergencyName: document.getElementById('emergencyName').value,
+                    emergencyPhone: "+91 " + document.getElementById('emergencyPhone').value,
+                    emergencyAddress: document.getElementById('emergencyAddress').value,
+                    consent: document.getElementById('consent').checked ? "Yes" : "No",
+                    signature: signaturePad.toDataURL("image/png"),
+                    extraParticipantsList: extraParticipantsData
+                };
+
+                // Send to the new Vercel API endpoint!
+                const response = await fetch('/api/register', { 
+                    method: "POST", 
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(requestData) 
+                });
+                
                 const result = await response.json();
 
                 if (result.result === "success") {
